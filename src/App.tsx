@@ -169,7 +169,7 @@ function Intro() {
         )}
       />
       <CardContent className="relative flex flex-1 flex-col gap-4">
-        <h1 className="text-3xl font-semibold tracking-tight text-balance [@media(min-height:821px)]:text-4xl xl:[@media(min-height:821px)]:text-5xl">
+        <h1 className="text-3xl font-semibold tracking-tight text-balance [@media(min-height:821px)]:text-4xl xl:[@media(min-height:821px)]:text-5xl [.scene_&]:text-5xl">
           Делаю красивые сайты <AuroraText colors={AURORA}>по канонам</AuroraText>
         </h1>
         <p className="text-muted-foreground">
@@ -396,13 +396,13 @@ function Plans() {
                   </Badge>
                 )}
                 <CardHeader className="relative">
-                  <div className="flex items-center gap-2.5 lg:flex-col lg:items-start lg:gap-2 min-[68.75rem]:flex-row min-[68.75rem]:items-center min-[68.75rem]:gap-2.5">
+                  <div className="flex items-center gap-2.5 lg:flex-col lg:items-start lg:gap-2 min-[68.75rem]:flex-row min-[68.75rem]:items-center min-[68.75rem]:gap-2.5 [.scene_&]:flex-row [.scene_&]:items-center [.scene_&]:gap-2.5">
                     <span className={cn("flex size-9 shrink-0 items-center justify-center rounded-lg ring-1", t.chip)}>
                       <p.icon className="size-4.5" aria-hidden="true" />
                     </span>
                     <CardTitle className="text-lg">{p.t}</CardTitle>
                   </div>
-                  <CardDescription className="md:min-h-10 lg:min-h-15 min-[75rem]:min-h-10">{p.d}</CardDescription>
+                  <CardDescription className="md:min-h-10 lg:min-h-15 min-[75rem]:min-h-10 [.scene_&]:min-h-10">{p.d}</CardDescription>
                 </CardHeader>
                 <CardContent className="relative flex flex-1 flex-col gap-3">
                   <p className="flex items-baseline gap-1.5 tabular-nums">
@@ -519,7 +519,32 @@ function How() {
 
 /* ---------- Каркас ---------- */
 
+/* Сцена: на компьютере страница считается под 1440×900 и целиком масштабируется под окно,
+   поэтому масштаб Windows/браузера и размер экрана не меняют раскладку. Телефоны не трогаем. */
+const SCENE_W = 1440
+const SCENE_H = 900
+const SCENE_MIN = 0.7
+
+function useScene() {
+  const calc = () => {
+    if (typeof window === "undefined") return null
+    const w = window.innerWidth
+    const h = window.innerHeight
+    if (w < 1024 || !window.matchMedia("(pointer: fine)").matches) return null
+    const k = Math.max(SCENE_MIN, Math.min(w / SCENE_W, h / SCENE_H))
+    return { k, w: w / k, h: h / k }
+  }
+  const [scene, setScene] = useState(calc)
+  useEffect(() => {
+    const on = () => setScene(calc())
+    window.addEventListener("resize", on)
+    return () => window.removeEventListener("resize", on)
+  }, [])
+  return scene
+}
+
 export default function App() {
+  const scene = useScene()
   const track = useRef<HTMLDivElement>(null)
   const [page, setPage] = useState(0)
   const [main, setMain] = useState<ProjectId>("disp")
@@ -572,7 +597,10 @@ export default function App() {
   const grid = "mx-auto grid max-w-7xl gap-4 md:h-full md:grid-cols-4"
 
   return (
-    <div className="relative flex h-svh flex-col overflow-hidden bg-background text-foreground">
+    <div
+      className={cn("relative flex h-svh flex-col overflow-hidden bg-background text-foreground", scene && "scene")}
+      style={scene ? { zoom: scene.k, width: scene.w, height: scene.h } : undefined}
+    >
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
         <div className="absolute -top-40 -left-40 size-[36rem] rounded-full bg-indigo-500/10 blur-3xl" />
         <div className="absolute top-1/3 -right-40 size-[32rem] rounded-full bg-sky-500/10 blur-3xl" />
