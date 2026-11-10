@@ -50,7 +50,7 @@ const projects: Record<
 > = {
   disp: {
     name: "Голосовой диспетчер",
-    kind: "Приём заказов по телефону для доставки суши",
+    kind: "Приём заказов по телефону для доставки суши",
     url: "restdisp.ru",
     href: "https://restdisp.ru",
     desk: "img/rd-home.jpg",
@@ -61,7 +61,7 @@ const projects: Record<
       ["Экономия", "https://restdisp.ru/#calc", "img/rd-calc.jpg"],
       ["Касса", "https://restdisp.ru/#pos", "img/rd-pos.jpg"],
       ["Веб-панель", "https://restdisp.ru/#panel", "img/rd-panel.jpg"],
-      ["Бронь и баллы", "https://restdisp.ru/#more", "img/rd-more.jpg"],
+      ["Бронь и баллы", "https://restdisp.ru/#more", "img/rd-more.jpg"],
       ["Механика", "https://restdisp.ru/#logic", "img/rd-logic.jpg"],
       ["Сравнение", "https://restdisp.ru/#compare", "img/rd-compare.jpg"],
       ["Тарифы", "https://restdisp.ru/#tariff", "img/rd-tariff.jpg"],
@@ -79,19 +79,19 @@ const projects: Record<
       ["Главная", "https://alex-cars.ru/", "img/alex-desk.jpg"],
       ["Каталог", "https://alex-cars.ru/#/catalog", "img/al-catalog.jpg"],
       ["Статьи", "https://alex-cars.ru/#/live", "img/al-live.jpg"],
-      ["Как работаем", "https://alex-cars.ru/#/#how", "img/al-how.jpg"],
+      ["Как работаем", "https://alex-cars.ru/#/#how", "img/al-how.jpg"],
       ["Контакты", "https://alex-cars.ru/#/#contacts", "img/al-contacts.jpg"],
     ],
   },
 }
 
-const pages = ["Работы", "Услуги и цены"]
+const pages = ["Работы", "Услуги и цены"]
 
 const doing = [
-  { icon: LayersIcon, t: "Сайт продукта", d: "как restdisp.ru" },
-  { icon: SendIcon, t: "Витрина из Telegram-канала", d: "как alex-cars.ru" },
-  { icon: StoreIcon, t: "Витрина из Авито", d: "объявления и сообщения в одном месте" },
-  { icon: PencilRulerIcon, t: "Визитка", d: "одна страница с контактами" },
+  { icon: LayersIcon, t: "Сайт продукта", d: "как restdisp.ru" },
+  { icon: SendIcon, t: "Витрина из Telegram-канала", d: "как alex-cars.ru" },
+  { icon: StoreIcon, t: "Витрина из Авито", d: "объявления и сообщения в одном месте" },
+  { icon: PencilRulerIcon, t: "Визитка", d: "одна страница с контактами" },
 ]
 
 function ThemeSwitch() {
@@ -159,15 +159,15 @@ function Intro() {
       />
       <CardContent className="relative flex flex-1 flex-col gap-4">
         <h1 className="text-4xl font-semibold tracking-tight text-balance xl:text-5xl">
-          Делаю красивые сайты <AuroraText colors={AURORA}>по канонам</AuroraText>
+          Делаю красивые сайты <AuroraText colors={AURORA}>по канонам</AuroraText>
         </h1>
         <p className="text-muted-foreground">
-          Сайты продуктов и витрины, которые наполняются сами. Заявки сразу в Telegram, свой
+          Сайты продуктов и витрины, которые наполняются сами. Заявки сразу в Telegram, свой
           домен, хостинг бесплатно.
         </p>
         <p className="text-sm text-muted-foreground">
-          <span className="font-medium text-foreground">Настоящий код, не конструктор.</span> Сайт
-          ваш и ни к какой платформе не привязан.
+          <span className="block font-medium text-foreground">Настоящий код, не конструктор.</span> Сайт
+          ваш и ни к какой платформе не привязан.
         </p>
         <div className="mt-auto flex flex-col gap-3">
           {doing.map((s) => (
@@ -186,7 +186,7 @@ function Intro() {
       <CardFooter className="relative flex-col items-stretch gap-2">
         <Button render={ext(TG)}>
           <SendIcon data-icon="inline-start" />
-          Написать в Telegram
+          Написать в Telegram
         </Button>
       </CardFooter>
     </Card>
@@ -302,8 +302,8 @@ function PhoneTile({ id }: { id: ProjectId }) {
         }}
       />
       <CardHeader className="relative">
-        <CardTitle className="text-xl">На телефоне</CardTitle>
-        <CardDescription>{p.url} · нажмите и листайте</CardDescription>
+        <CardTitle className="text-xl">На телефоне</CardTitle>
+        <CardDescription>{p.url} · нажмите и листайте</CardDescription>
         <CardAction>
           <SmartphoneIcon className="size-5 text-muted-foreground" aria-hidden="true" />
         </CardAction>
@@ -316,7 +316,7 @@ function PhoneTile({ id }: { id: ProjectId }) {
         trigger={
           <div
             className="relative flex h-[26rem] cursor-zoom-in items-start justify-center px-6 pb-4 [container-type:size] md:h-auto md:min-h-0 md:flex-1"
-            aria-label={`Полистать ${p.name} на телефоне`}
+            aria-label={`Полистать ${p.name} на телефоне`}
           >
             <PhoneFrame
               bar={p.bar}
@@ -336,28 +336,28 @@ function PhoneTile({ id }: { id: ProjectId }) {
 function Plans() {
   const plans = [
     {
-      t: "Визитка", price: "от 15 000", d: "Одна страница: кто вы, что делаете, как связаться.", ex: null,
-      b: ["Кнопки Telegram и телефона", "Заявки в Telegram", "Свой домен"],
-      more: ["Одна красивая страница о вас и вашем деле", "Кнопки Telegram и телефона", "Форма заявки - заявки приходят в Telegram", "Версия для телефона", "Светлая и тёмная тема", "Свой домен с https, хостинг бесплатно"],
-      need: ["Рассказ о деле: что делаете и для кого", "Логотип и фото, если есть", "Домен - поможем выбрать и подключить"],
+      t: "Визитка", price: "от 15 000", d: "Одна страница: кто вы, что делаете, как связаться.", ex: null,
+      b: ["Кнопки Telegram и телефона", "Заявки в Telegram", "Свой домен"],
+      more: ["Одна красивая страница о вас и вашем деле", "Кнопки Telegram и телефона", "Форма заявки - заявки приходят в Telegram", "Версия для телефона", "Светлая и тёмная тема", "Свой домен с https, хостинг бесплатно"],
+      need: ["Рассказ о деле: что делаете и для кого", "Логотип и фото, если есть", "Домен - поможем выбрать и подключить"],
     },
     {
-      t: "Сайт продукта", price: "от 60 000", d: "Экраны листаются, как презентация.", ex: ["restdisp.ru", "https://restdisp.ru", "img/rd-home.jpg"],
-      b: ["Расчёты прямо на странице", "Отдельная версия для телефона", "Светлая и тёмная тема"],
-      more: ["Несколько экранов, каждый со своей мыслью", "Вкладки сверху, «Назад» и «Дальше» снизу", "Расчёт выгоды прямо на странице - по цифрам клиента", "Примеры, сравнение, тарифы", "Отдельная вёрстка для телефона", "Заявки в Telegram, свой домен с https"],
-      need: ["Рассказ о продукте и кому он нужен", "Цифры для расчёта и тарифы", "Домен - поможем выбрать и подключить"],
+      t: "Сайт продукта", price: "от 60 000", d: "Экраны листаются, как презентация.", ex: ["restdisp.ru", "https://restdisp.ru", "img/rd-home.jpg"],
+      b: ["Расчёты прямо на странице", "Отдельная версия для телефона", "Светлая и тёмная тема"],
+      more: ["Несколько экранов, каждый со своей мыслью", "Вкладки сверху, «Назад» и «Дальше» снизу", "Расчёт выгоды прямо на странице - по цифрам клиента", "Примеры, сравнение, тарифы", "Отдельная вёрстка для телефона", "Заявки в Telegram, свой домен с https"],
+      need: ["Рассказ о продукте и кому он нужен", "Цифры для расчёта и тарифы", "Домен - поможем выбрать и подключить"],
     },
     {
-      t: "Витрина из канала", price: "от 40 000", d: "Пост в Telegram-канале сам становится карточкой на сайте.", ex: ["alex-cars.ru", "https://alex-cars.ru", "img/alex-desk.jpg"],
-      b: ["Подбор по цене и марке", "Заявки в Telegram", "Все заявки в Excel"],
-      more: ["Каталог собирается из постов канала сам", "Новый пост на сайте через пару минут", "Подбор по цене и параметрам", "Заявки с сайта сразу в Telegram", "Все заявки в Excel одной кнопкой", "Версия для телефона, свой домен с https"],
-      need: ["Ссылка на открытый Telegram-канал", "Добавить нашего бота в канал администратором", "Домен - поможем выбрать и подключить"],
+      t: "Витрина из канала", price: "от 40 000", d: "Пост в Telegram-канале сам становится карточкой на сайте.", ex: ["alex-cars.ru", "https://alex-cars.ru", "img/alex-desk.jpg"],
+      b: ["Подбор по цене и марке", "Заявки в Telegram", "Все заявки в Excel"],
+      more: ["Каталог собирается из постов канала сам", "Новый пост на сайте через пару минут", "Подбор по цене и параметрам", "Заявки с сайта сразу в Telegram", "Все заявки в Excel одной кнопкой", "Версия для телефона, свой домен с https"],
+      need: ["Ссылка на открытый Telegram-канал", "Добавить нашего бота в канал администратором", "Домен - поможем выбрать и подключить"],
     },
     {
-      t: "Витрина из Авито", price: "от 50 000", d: "Объявления с Авито сами появляются на сайте.", ex: null,
-      b: ["Сообщения покупателей в Telegram", "Заявки в Telegram", "Все заявки в Excel"],
-      more: ["Ваши объявления с Авито сами появляются на сайте", "Сообщения покупателей с Авито приходят в Telegram", "Заявки с сайта - туда же", "Все заявки в Excel одной кнопкой", "Версия для телефона, свой домен с https"],
-      need: ["Кабинет Авито и ключи доступа из раздела «Для профессионалов»", "Домен - поможем выбрать и подключить"],
+      t: "Витрина из Авито", price: "от 50 000", d: "Объявления с Авито сами появляются на сайте.", ex: null,
+      b: ["Сообщения покупателей в Telegram", "Заявки в Telegram", "Все заявки в Excel"],
+      more: ["Ваши объявления с Авито сами появляются на сайте", "Сообщения покупателей с Авито приходят в Telegram", "Заявки с сайта - туда же", "Все заявки в Excel одной кнопкой", "Версия для телефона, свой домен с https"],
+      need: ["Кабинет Авито и ключи доступа из раздела «Для профессионалов»", "Домен - поможем выбрать и подключить"],
     },
   ] as const
   return (
@@ -374,7 +374,7 @@ function Plans() {
             <CardDescription>{p.d}</CardDescription>
             {i === 1 && (
               <CardAction>
-                <Badge className="rounded-full">Как restdisp.ru</Badge>
+                <Badge className="rounded-full">Как restdisp.ru</Badge>
               </CardAction>
             )}
           </CardHeader>
@@ -392,7 +392,7 @@ function Plans() {
             </ul>
           </CardContent>
           <CardFooter className="justify-between text-sm font-medium">
-            Подробнее и заявка
+            Подробнее и заявка
             <ArrowRightIcon className="size-4 transition-transform group-hover/card:translate-x-1" aria-hidden="true" />
           </CardFooter>
         </Card>
@@ -405,15 +405,15 @@ function Plans() {
 
 function How() {
   const steps = [
-    ["Смотрю, что у вас есть", "Канал, Авито, старый сайт или просто рассказ."],
-    ["Готовлю демо бесплатно", "Присылаю ссылку, смотрите на телефоне."],
-    ["Правки и оплата", "Платите, когда сайт нравится."],
-    ["Запуск", "Ваш домен, https и бот заявок. Код ваш, без конструкторов."],
+    ["Смотрю, что у вас есть", "Канал, Авито, старый сайт или просто рассказ."],
+    ["Готовлю демо бесплатно", "Присылаю ссылку, смотрите на телефоне."],
+    ["Правки и оплата", "Платите, когда сайт нравится."],
+    ["Запуск", "Ваш домен, https и бот заявок. Код ваш, без конструкторов."],
   ]
   return (
     <Card className={cn("md:col-span-2", tile)}>
       <CardHeader>
-        <CardDescription>Как работаю</CardDescription>
+        <CardDescription>Как работаю</CardDescription>
         <CardTitle className="text-xl">Сначала сайт, потом оплата</CardTitle>
       </CardHeader>
       <CardContent className="grid flex-1 gap-4 sm:grid-cols-2">
@@ -452,25 +452,25 @@ function Contact() {
           onSubmit={(e) => {
             e.preventDefault()
             const link = new FormData(e.currentTarget).get("channel")?.toString().trim()
-            const text = link ? `Здравствуйте! Хочу сайт. Вот что у меня есть: ${link}` : "Здравствуйте! Хочу сайт."
+            const text = link ? `Здравствуйте! Хочу сайт. Вот что у меня есть: ${link}` : "Здравствуйте! Хочу сайт."
             window.open(`${TG}?text=${encodeURIComponent(text)}`, "_blank")
           }}
         >
           <Field className="flex-1">
-            <FieldLabel htmlFor="channel">Ссылка на канал, Авито или сайт, если есть</FieldLabel>
+            <FieldLabel htmlFor="channel">Ссылка на канал, Авито или сайт, если есть</FieldLabel>
             <InputGroup>
               <InputGroupInput id="channel" name="channel" placeholder="t.me/ваш_канал" />
             </InputGroup>
           </Field>
           <Button type="submit">
             <SendIcon data-icon="inline-start" />
-            Отправить в Telegram
+            Отправить в Telegram
           </Button>
         </form>
       </CardContent>
       <CardFooter className="relative">
         <Button variant="link" className="px-0" render={ext(TG)}>
-          или напишите в Telegram
+          или напишите в Telegram
           <ArrowUpRightIcon data-icon="inline-end" />
         </Button>
       </CardFooter>
@@ -563,7 +563,7 @@ export default function App() {
             <Button size="sm" render={ext(TG)}>
               <SendIcon data-icon="inline-start" />
               <span className="sm:hidden">Telegram</span>
-              <span className="hidden sm:inline">Написать в Telegram</span>
+              <span className="hidden sm:inline">Написать в Telegram</span>
             </Button>
           </div>
         </div>

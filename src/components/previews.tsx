@@ -22,7 +22,7 @@ export const TG_USER = "BarniSolo"
 export const LEGAL = "самозанятый Александров Александр Михайлович, ИНН 100118989078"
 
 /* Живой сайт в iframe, уменьшенный под ширину контейнера.
-   fill - заполнить родителя целиком (экран телефона), высота сайта подстраивается */
+   fill - заполнить родителя целиком (экран телефона), высота сайта подстраивается */
 function ScaledFrame({
   src,
   w,
@@ -132,28 +132,28 @@ export function SitePreview({
   href: string
   poster: string
 }) {
-  const [full, setFull] = useState(true)
+  const [full, setFull] = useState(false)
   return (
-    <Dialog onOpenChange={(o) => !o && setFull(true)}>
+    <Dialog onOpenChange={(o) => !o && setFull(false)}>
       <DialogTrigger nativeButton={false} render={trigger} />
       <DialogContent
         className={cn("gap-0 overflow-hidden p-0 transition-none sm:max-w-none", full && "flex flex-col")}
         style={
           full
             ? { width: "calc(100vw - 1rem)", height: "calc(100svh - 1rem)", maxWidth: "none" }
-            : { width: "min(80rem, calc((100svh - 11rem) * 1.6), calc(100vw - 2rem))", maxWidth: "none" }
+            : { width: "min(64rem, calc((100svh - 11rem) * 1.6), calc(100vw - 2rem))", maxWidth: "none" }
         }
       >
         <DialogHeader className="shrink-0 flex-row items-center justify-between gap-4 border-b px-4 py-3 pr-12">
           <DialogTitle>{name}</DialogTitle>
-          <DialogDescription className="sr-only">Живой сайт: можно смотреть, кликать и листать</DialogDescription>
+          <DialogDescription className="sr-only">Живой сайт: можно смотреть, кликать и листать</DialogDescription>
           <div className="flex items-center gap-2">
             <Badge variant="outline" className="hidden rounded-full sm:inline-flex">
               {url}
             </Badge>
             <Button variant="outline" size="sm" onClick={() => setFull((v) => !v)}>
               {full ? <Minimize2Icon data-icon="inline-start" /> : <Maximize2Icon data-icon="inline-start" />}
-              {full ? "Свернуть" : "На весь экран"}
+              {full ? "Свернуть" : "На весь экран"}
             </Button>
           </div>
         </DialogHeader>
@@ -163,10 +163,10 @@ export function SitePreview({
         <DialogFooter className="m-0 shrink-0 flex-row items-center justify-between gap-4 border-t px-4 py-3">
           <span className="flex items-center gap-2 text-sm font-medium">
             <MousePointerClickIcon className="size-4 text-muted-foreground" aria-hidden="true" />
-            Это живой сайт - можно смотреть, кликать и листать
+            Это живой сайт - можно смотреть, кликать и листать
           </span>
           <Button size="lg" render={<a href={href} target="_blank" rel="noreferrer" />}>
-            Перейти и посмотреть, как это работает
+            Перейти и посмотреть, как это работает
             <ArrowUpRightIcon data-icon="inline-end" />
           </Button>
         </DialogFooter>
@@ -196,12 +196,12 @@ export function PhonePreview({
         showCloseButton={false}
         className="w-auto max-w-none items-center justify-items-center gap-3 bg-transparent p-0 ring-0 sm:max-w-none"
       >
-        <DialogTitle className="sr-only">{name} на телефоне</DialogTitle>
+        <DialogTitle className="sr-only">{name} на телефоне</DialogTitle>
         <PhoneFrame bar={bar} style={{ width: "min(22rem, calc((100svh - 6rem) * 0.4754))" }}>
-          <ScaledFrame fill src={href} w={390} h={844} title={`${name} на телефоне`} poster={poster} />
+          <ScaledFrame fill src={href} w={390} h={844} title={`${name} на телефоне`} poster={poster} />
         </PhoneFrame>
         <Badge variant="secondary" className="rounded-full">
-          Живой сайт - можно смотреть, кликать и листать
+          Живой сайт - можно смотреть, кликать и листать
         </Badge>
       </DialogContent>
     </Dialog>
@@ -247,7 +247,7 @@ export function PlanDialog({ plan, trigger }: { plan: Plan; trigger: React.React
 
         <div className="grid gap-6 md:grid-cols-2">
           <div className="flex flex-col gap-3">
-            <h3 className="font-medium">Что входит</h3>
+            <h3 className="font-medium">Что входит</h3>
             <ul className="flex flex-col gap-2">
               {plan.more.map((x) => (
                 <li key={x} className="flex gap-2">
@@ -261,7 +261,7 @@ export function PlanDialog({ plan, trigger }: { plan: Plan; trigger: React.React
           </div>
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-3">
-              <h3 className="font-medium">Что нужно от вас</h3>
+              <h3 className="font-medium">Что нужно от вас</h3>
               <ul className="flex flex-col gap-2 text-muted-foreground">
                 {plan.need.map((x) => (
                   <li key={x}>{x}</li>
@@ -295,21 +295,21 @@ export function PlanDialog({ plan, trigger }: { plan: Plan; trigger: React.React
           <h3 className="font-medium">Оставить заявку</h3>
           <FieldGroup className="grid gap-4 sm:grid-cols-2">
             <Field>
-              <FieldLabel htmlFor="pl-name">Как к вам обращаться</FieldLabel>
+              <FieldLabel htmlFor="pl-name">Как к вам обращаться</FieldLabel>
               <Input id="pl-name" value={name} onChange={(e) => setName(e.target.value)} />
             </Field>
             <Field>
-              <FieldLabel htmlFor="pl-contact">Телефон или Telegram</FieldLabel>
+              <FieldLabel htmlFor="pl-contact">Телефон или Telegram</FieldLabel>
               <Input id="pl-contact" value={contact} onChange={(e) => setContact(e.target.value)} />
             </Field>
             <Field className="sm:col-span-2">
-              <FieldLabel htmlFor="pl-note">Ссылка на канал, Авито или пара слов о деле</FieldLabel>
+              <FieldLabel htmlFor="pl-note">Ссылка на канал, Авито или пара слов о деле</FieldLabel>
               <Textarea id="pl-note" rows={2} value={note} onChange={(e) => setNote(e.target.value)} />
             </Field>
           </FieldGroup>
           <Button type="submit" size="lg" className="w-full sm:w-fit">
             <SendIcon data-icon="inline-start" />
-            Отправить заявку в Telegram
+            Отправить заявку в Telegram
           </Button>
           <p className="text-xs text-muted-foreground">Исполнитель: {LEGAL}</p>
         </form>
