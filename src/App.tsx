@@ -380,7 +380,7 @@ function Plans() {
             tone={t}
             icon={p.icon}
             trigger={
-              <Card className={cn("relative cursor-pointer gap-3 overflow-visible md:col-span-2 lg:col-span-1", tile)}>
+              <Card className={cn("relative cursor-pointer gap-3 overflow-visible md:col-span-2 lg:col-span-1 [.scene_&]:gap-5 [.scene_&]:pt-6", tile)}>
                 <span
                   aria-hidden="true"
                   className={cn("pointer-events-none absolute inset-0 rounded-[inherit] bg-radial-[at_0%_0%] to-transparent to-65%", t.wash)}
@@ -404,12 +404,12 @@ function Plans() {
                   </div>
                   <CardDescription className="md:min-h-10 lg:min-h-15 min-[75rem]:min-h-10 [.scene_&]:min-h-10">{p.d}</CardDescription>
                 </CardHeader>
-                <CardContent className="relative flex flex-1 flex-col gap-3">
+                <CardContent className="relative flex flex-1 flex-col gap-3 [.scene_&]:gap-5">
                   <p className="flex items-baseline gap-1.5 tabular-nums">
                     <span className="text-sm text-muted-foreground">от</span>
                     <span className="text-3xl font-semibold tracking-tight">{p.price.replace(/^от\s/, "")} ₽</span>
                   </p>
-                  <ul className="flex flex-col gap-1.5 text-sm text-foreground/90">
+                  <ul className="flex flex-col gap-1.5 text-sm text-foreground/90 [.scene_&]:gap-2.5">
                     {p.b.map((x) => (
                       <li key={x} className="flex items-start gap-2">
                         <span className={cn("mt-px flex size-5 shrink-0 items-center justify-center rounded-full ring-1", t.chip)}>
@@ -420,7 +420,7 @@ function Plans() {
                     ))}
                   </ul>
                 </CardContent>
-                <CardFooter className="relative justify-between py-2.5 text-sm font-medium">
+                <CardFooter className="relative justify-between py-2.5 text-sm font-medium [.scene_&]:py-4">
                   Подробнее и заявка
                   <span
                     className={cn(
@@ -649,7 +649,7 @@ export default function App() {
           </div>
         </section>
         <section className={panel} aria-label={pages[1]}>
-          <div className={cn(grid, "md:h-auto md:min-h-full md:content-center")}>
+          <div className={cn(grid, "md:h-auto md:min-h-full md:content-center md:gap-y-8 [.scene_&]:gap-x-5")}>
             <Plans />
             <How />
             <p className="text-center text-xs text-muted-foreground md:col-span-4 lg:hidden">Исполнитель: {LEGAL}</p>
