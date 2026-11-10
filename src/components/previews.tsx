@@ -18,7 +18,7 @@ import { Separator } from "@/components/ui/separator"
 import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
 
-export const TG_USER = "pv_bhp"
+export const TG_USER = "BarniSolo"
 export const LEGAL = "самозанятый Александров Александр Михайлович, ИНН 100118989078"
 
 /* Живой сайт в iframe, уменьшенный под ширину контейнера */

@@ -37,7 +37,7 @@ import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { cn } from "@/lib/utils"
 
-const TG = "https://t.me/pv_bhp"
+const TG = "https://t.me/BarniSolo"
 const AURORA = ["#6366f1", "#8b5cf6", "#0ea5e9", "#6366f1"]
 const tile = "bg-card/85 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
 
