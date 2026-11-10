@@ -178,3 +178,14 @@
     @apply font-sans;
     }
 }
+@keyframes nudge {
+  0%, 62%, 100% { transform: translateY(0); }
+  70% { transform: translateY(-10px); }
+  78% { transform: translateY(0); }
+  84% { transform: translateY(-4px); }
+  90% { transform: translateY(0); }
+}
+.animate-nudge { animation: nudge 3.2s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .animate-nudge { animation: none; }
+}

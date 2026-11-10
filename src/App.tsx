@@ -46,10 +46,11 @@ type ProjectId = "disp" | "alex"
 
 const projects: Record<
   ProjectId,
-  { name: string; kind: string; url: string; href: string; desk: string; phone: string; bar: "light" | "dark"; links: [string, string, string][] }
+  { name: string; kind: string; short: string; url: string; href: string; desk: string; phone: string; bar: "light" | "dark"; links: [string, string, string][] }
 > = {
   disp: {
     name: "Голосовой диспетчер",
+    short: "Доставка суши",
     kind: "Приём заказов по телефону для доставки суши",
     url: "restdisp.ru",
     href: "https://restdisp.ru",
@@ -70,6 +71,7 @@ const projects: Record<
   alex: {
     name: "Алекс Авто",
     kind: "Витрина автомобилей",
+    short: "Витрина автомобилей",
     url: "alex-cars.ru",
     href: "https://alex-cars.ru",
     desk: "img/alex-desk.jpg",
@@ -272,18 +274,18 @@ function SideTile({ id, onPick }: { id: ProjectId; onPick: () => void }) {
     >
       <CardHeader>
         <CardDescription>
-          {p.kind} · {p.url}
+          {p.short} · {p.url}
         </CardDescription>
         <CardTitle className="text-xl">{p.name}</CardTitle>
-        <CardAction>
-          <Badge variant="secondary" className="gap-1 rounded-full">
-            <ArrowLeftRightIcon data-icon="inline-start" />
-            Смотреть
-          </Badge>
-        </CardAction>
       </CardHeader>
       <CardContent className="flex flex-1 flex-col">
-        <Shot url={p.url} src={p.desk} />
+        <div className="relative flex flex-1 flex-col animate-nudge group-hover/card:[animation-play-state:paused]">
+          <Shot url={p.url} src={p.desk} />
+          <Badge className="absolute bottom-3 left-1/2 -translate-x-1/2 gap-1.5 rounded-full px-3 py-1 shadow-lg">
+            <ArrowLeftRightIcon data-icon="inline-start" />
+            Смотреть этот сайт
+          </Badge>
+        </div>
       </CardContent>
     </Card>
   )
