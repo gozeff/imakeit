@@ -594,7 +594,7 @@ export default function App() {
 
   const panel =
     "h-full w-full shrink-0 snap-start overflow-y-auto px-4 py-4 md:px-6 md:py-5"
-  const grid = "mx-auto grid max-w-7xl gap-4 md:h-full md:grid-cols-4"
+  const grid = "mx-auto grid max-w-7xl [.scene_&]:max-w-[120rem] gap-4 md:h-full md:grid-cols-4"
 
   return (
     <div
@@ -613,7 +613,7 @@ export default function App() {
         />
       </div>
       <header className="relative border-b bg-background/60 backdrop-blur-md">
-        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 px-4 md:px-6">
+        <div className="mx-auto flex h-14 max-w-7xl [.scene_&]:max-w-[120rem] items-center justify-between gap-4 px-4 md:px-6">
           <div className="hidden flex-1 sm:flex">
             <ThemeSwitch />
           </div>
@@ -658,7 +658,7 @@ export default function App() {
       </div>
 
       <footer className="relative border-t bg-background/60 backdrop-blur-md">
-        <div className="relative mx-auto flex h-14 max-w-7xl items-center justify-center px-4 md:px-6">
+        <div className="relative mx-auto flex h-14 max-w-7xl [.scene_&]:max-w-[120rem] items-center justify-center px-4 md:px-6">
           {page === pages.length - 1 && (
             <p className="absolute left-6 hidden max-w-[calc(50%-7rem)] text-xs text-muted-foreground lg:block">
               Исполнитель: {LEGAL}
