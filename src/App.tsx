@@ -10,6 +10,10 @@ import {
   MoonIcon,
   PencilRulerIcon,
   SendIcon,
+  SearchIcon,
+  SparklesIcon,
+  WalletIcon,
+  RocketIcon,
   SmartphoneIcon,
   StoreIcon,
   SunIcon,
@@ -332,25 +336,29 @@ function Plans() {
   const plans = [
     {
       t: "Визитка", price: "от 15 000", d: "Одна страница: кто вы, что делаете, как связаться.", ex: null,
-      b: ["Кнопки Telegram и телефона", "Заявки в Telegram", "Свой домен"],
+      icon: PencilRulerIcon, c: "text-indigo-300 bg-indigo-500/20 ring-indigo-400/30", g: "from-indigo-500/12",
+      b: ["Кнопки «Позвонить» и «Написать»", "Форма заявки прямо на странице", "Светлая и тёмная тема"],
       more: ["Одна красивая страница о вас и вашем деле", "Кнопки Telegram и телефона", "Форма заявки - заявки приходят в Telegram", "Версия для телефона", "Светлая и тёмная тема", "Свой домен с https, хостинг бесплатно"],
       need: ["Рассказ о деле: что делаете и для кого", "Логотип и фото, если есть", "Домен - поможем выбрать и подключить"],
     },
     {
       t: "Сайт продукта", price: "от 60 000", d: "Экраны листаются, как презентация.", ex: ["restdisp.ru", "https://restdisp.ru", "img/rd-home.jpg"],
-      b: ["Расчёты прямо на странице", "Отдельная версия для телефона", "Светлая и тёмная тема"],
+      icon: LayersIcon, c: "text-violet-300 bg-violet-500/20 ring-violet-400/30", g: "from-violet-500/12",
+      b: ["Экраны с вкладками", "Расчёт выгоды по цифрам клиента", "Примеры, сравнение, тарифы"],
       more: ["Несколько экранов, каждый со своей мыслью", "Вкладки сверху, «Назад» и «Дальше» снизу", "Расчёт выгоды прямо на странице - по цифрам клиента", "Примеры, сравнение, тарифы", "Отдельная вёрстка для телефона", "Заявки в Telegram, свой домен с https"],
       need: ["Рассказ о продукте и кому он нужен", "Цифры для расчёта и тарифы", "Домен - поможем выбрать и подключить"],
     },
     {
       t: "Витрина из канала", price: "от 40 000", d: "Пост в Telegram-канале сам становится карточкой на сайте.", ex: ["alex-cars.ru", "https://alex-cars.ru", "img/alex-desk.jpg"],
-      b: ["Подбор по цене и марке", "Заявки в Telegram", "Все заявки в Excel"],
+      icon: SendIcon, c: "text-sky-300 bg-sky-500/20 ring-sky-400/30", g: "from-sky-500/12",
+      b: ["Каталог из постов канала", "Новый пост на сайте за минуты", "Подбор по цене и параметрам"],
       more: ["Каталог собирается из постов канала сам", "Новый пост на сайте через пару минут", "Подбор по цене и параметрам", "Заявки с сайта сразу в Telegram", "Все заявки в Excel одной кнопкой", "Версия для телефона, свой домен с https"],
       need: ["Ссылка на открытый Telegram-канал", "Добавить нашего бота в канал администратором", "Домен - поможем выбрать и подключить"],
     },
     {
       t: "Витрина из Авито", price: "от 50 000", d: "Объявления с Авито сами появляются на сайте.", ex: null,
-      b: ["Сообщения покупателей в Telegram", "Заявки в Telegram", "Все заявки в Excel"],
+      icon: StoreIcon, c: "text-emerald-300 bg-emerald-500/20 ring-emerald-400/30", g: "from-emerald-500/12",
+      b: ["Объявления переносятся сами", "Сообщения покупателей в Telegram", "Все заявки в Excel одной кнопкой"],
       more: ["Ваши объявления с Авито сами появляются на сайте", "Сообщения покупателей с Авито приходят в Telegram", "Заявки с сайта - туда же", "Все заявки в Excel одной кнопкой", "Версия для телефона, свой домен с https"],
       need: ["Кабинет Авито и ключи доступа из раздела «Для профессионалов»", "Домен - поможем выбрать и подключить"],
     },
@@ -362,9 +370,12 @@ function Plans() {
           key={p.t}
           plan={p}
           trigger={
-        <Card className={cn("relative cursor-pointer overflow-hidden", tile)}>
+        <Card className={cn("relative cursor-pointer overflow-hidden bg-gradient-to-b to-transparent", p.g, tile)}>
           {i === 1 && <ShineBorder shineColor={AURORA} borderWidth={2} duration={10} />}
           <CardHeader>
+            <span className={cn("mb-2 flex size-10 items-center justify-center rounded-lg ring-1", p.c)}>
+              <p.icon className="size-5" aria-hidden="true" />
+            </span>
             <CardTitle className="text-lg">{p.t}</CardTitle>
             <CardDescription>{p.d}</CardDescription>
             {i === 1 && (
@@ -375,10 +386,10 @@ function Plans() {
           </CardHeader>
           <CardContent className="flex flex-1 flex-col gap-4">
             <p className="text-3xl font-semibold tracking-tight tabular-nums">{p.price} ₽</p>
-            <ul className="flex flex-col gap-2 text-sm">
+            <ul className="flex flex-col gap-2 text-sm text-foreground/90">
               {p.b.map((x) => (
-                <li key={x} className="flex items-center gap-2">
-                  <span className="flex size-5 items-center justify-center rounded-full bg-primary/10">
+                <li key={x} className="flex items-start gap-2">
+                  <span className={cn("mt-px flex size-5 shrink-0 items-center justify-center rounded-full ring-1", p.c)}>
                     <CheckIcon className="size-3" aria-hidden="true" />
                   </span>
                   {x}
@@ -400,10 +411,10 @@ function Plans() {
 
 function How() {
   const steps = [
-    ["Смотрю, что у вас есть", "Канал, Авито, старый сайт или просто рассказ."],
-    ["Готовлю демо бесплатно", "Присылаю ссылку, смотрите на телефоне."],
-    ["Правки и оплата", "Платите, когда сайт нравится."],
-    ["Запуск", "Ваш домен, https и бот заявок. Код ваш, без конструкторов."],
+    { icon: SearchIcon, c: "text-indigo-300 bg-indigo-500/20 ring-indigo-400/30", g: "from-indigo-500/15", t: "Смотрю, что у вас есть", d: "Канал, Авито, старый сайт или просто рассказ." },
+    { icon: SparklesIcon, c: "text-violet-300 bg-violet-500/20 ring-violet-400/30", g: "from-violet-500/15", t: "Готовлю демо бесплатно", d: "Присылаю ссылку, смотрите на телефоне." },
+    { icon: WalletIcon, c: "text-sky-300 bg-sky-500/20 ring-sky-400/30", g: "from-sky-500/15", t: "Правки и оплата", d: "Платите, когда сайт нравится." },
+    { icon: RocketIcon, c: "text-emerald-300 bg-emerald-500/20 ring-emerald-400/30", g: "from-emerald-500/15", t: "Запуск", d: "Ваш домен, https и бот заявок. Код ваш, без конструкторов." },
   ]
   return (
     <Card className={cn("relative overflow-hidden md:col-span-4", tile)}>
@@ -411,23 +422,23 @@ function How() {
         <CardDescription>Как работаю</CardDescription>
         <CardTitle className="text-xl">Сначала сайт, потом оплата</CardTitle>
       </CardHeader>
-      <CardContent className="grid flex-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
-        {steps.map(([t, d], i) => (
-          <div key={t} className="flex gap-3 lg:flex-col">
-            <div className="flex items-start gap-3 lg:items-center">
-              <span className="flex size-8 shrink-0 items-center justify-center rounded-full border bg-background text-sm font-semibold shadow-xs tabular-nums">
-                {i + 1}
+      <CardContent className="grid flex-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {steps.map((s, i) => (
+          <div key={s.t} className={cn("flex flex-col gap-3 rounded-xl border bg-gradient-to-b to-transparent p-4", s.g)}>
+            <div className="flex items-center justify-between">
+              <span className={cn("flex size-10 items-center justify-center rounded-lg ring-1", s.c)}>
+                <s.icon className="size-5" aria-hidden="true" />
               </span>
-              {i < steps.length - 1 && <span aria-hidden="true" className="hidden h-px flex-1 bg-border lg:block" />}
+              <span className="text-3xl font-semibold text-foreground/15 tabular-nums">{i + 1}</span>
             </div>
             <div className="flex flex-col gap-1">
-              <span className="font-medium">{t}</span>
-              <span className="text-sm text-muted-foreground">{d}</span>
+              <span className="text-base font-semibold">{s.t}</span>
+              <span className="text-sm text-foreground/75">{s.d}</span>
             </div>
           </div>
         ))}
       </CardContent>
-      <CardFooter className="relative">
+      <CardFooter className="relative bg-gradient-to-r from-indigo-500/20 via-violet-500/15 to-sky-500/20">
         <form
           className="flex w-full flex-col gap-3 lg:flex-row lg:items-center lg:gap-4"
           onSubmit={(e) => {
@@ -437,13 +448,13 @@ function How() {
             window.open(`${TG}?text=${encodeURIComponent(text)}`, "_blank")
           }}
         >
-          <label htmlFor="channel" className="shrink-0 font-medium">
+          <label htmlFor="channel" className="shrink-0 text-base font-semibold">
             Расскажите, какой сайт нужен
           </label>
-          <InputGroup className="lg:flex-1">
+          <InputGroup className="h-10 bg-background/80 lg:flex-1">
             <InputGroupInput id="channel" name="channel" placeholder="Ссылка на канал, Авито или сайт" />
           </InputGroup>
-          <Button type="submit" className="shrink-0">
+          <Button type="submit" size="lg" className="shrink-0">
             <SendIcon data-icon="inline-start" />
             Отправить в Telegram
           </Button>
