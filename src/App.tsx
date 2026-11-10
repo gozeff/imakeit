@@ -127,7 +127,7 @@ function ext(href: string) {
   return <a href={href} target="_blank" rel="noreferrer" />
 }
 
-function Shot({ url, src, href }: { url: string; src: string; href?: string }) {
+function Shot({ url, src, href, dark }: { url: string; src: string; href?: string; dark?: boolean }) {
   const inner = (
     <>
       <div className="flex h-7 shrink-0 items-center gap-1.5 border-b px-3">
@@ -136,11 +136,11 @@ function Shot({ url, src, href }: { url: string; src: string; href?: string }) {
         <span className="size-2 rounded-full bg-muted-foreground/30" />
         <span className="mx-auto rounded bg-muted px-6 text-[11px] text-muted-foreground">{url}</span>
       </div>
-      <div className="relative flex-1 overflow-hidden">
+      <div className={cn("relative flex-1 overflow-hidden", dark ? "bg-neutral-950" : "bg-white")}>
         <img
           src={src}
           alt={url}
-          className="absolute inset-0 size-full object-cover object-top transition-transform duration-700 ease-out group-hover/shot:scale-[1.03]"
+          className="absolute inset-x-0 top-0 h-auto w-full origin-top transition-transform duration-700 ease-out group-hover/shot:scale-[1.03]"
         />
       </div>
     </>
@@ -233,7 +233,7 @@ function MainTile({ id }: { id: ProjectId }) {
           poster={secImg}
           trigger={
             <div className="flex flex-1 cursor-zoom-in flex-col" aria-label={`Увеличить ${p.name}`}>
-              <Shot url={p.url} src={secImg} />
+              <Shot url={p.url} src={secImg} dark={p.bar === "dark"} />
             </div>
           }
         />
@@ -283,7 +283,7 @@ function SideTile({ id, onPick }: { id: ProjectId; onPick: () => void }) {
       </CardHeader>
       <CardContent className="flex flex-1 flex-col">
         <div className="relative flex flex-1 flex-col animate-nudge group-hover/card:[animation-play-state:paused]">
-          <Shot url={p.url} src={p.desk} />
+          <Shot url={p.url} src={p.desk} dark={p.bar === "dark"} />
           <Badge className="absolute bottom-3 left-1/2 -translate-x-1/2 gap-1.5 rounded-full px-3 py-1 shadow-lg">
             <ArrowLeftRightIcon data-icon="inline-start" />
             Смотреть этот сайт
