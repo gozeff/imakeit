@@ -19,6 +19,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
 
 export const TG_USER = "pv_bhp"
+export const LEGAL = "самозанятый Александров Александр Михайлович, ИНН 100118989078"
 
 /* Живой сайт в iframe, уменьшенный под ширину контейнера */
 function ScaledFrame({ src, w, h, title, poster }: { src: string; w: number; h: number; title: string; poster?: string }) {
@@ -231,6 +232,7 @@ export function PlanDialog({ plan, trigger }: { plan: Plan; trigger: React.React
             <SendIcon data-icon="inline-start" />
             Отправить заявку в Telegram
           </Button>
+          <p className="text-xs text-muted-foreground">Исполнитель: {LEGAL}</p>
         </form>
       </DialogContent>
     </Dialog>

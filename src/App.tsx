@@ -32,7 +32,7 @@ import {
 import { DotPattern } from "@/components/ui/dot-pattern"
 import { Field, FieldLabel } from "@/components/ui/field"
 import { InputGroup, InputGroupInput } from "@/components/ui/input-group"
-import { PhoneFrame, PhonePreview, PlanDialog, SitePreview } from "@/components/previews"
+import { LEGAL, PhoneFrame, PhonePreview, PlanDialog, SitePreview } from "@/components/previews"
 import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { cn } from "@/lib/utils"
@@ -551,6 +551,7 @@ export default function App() {
             <Plans />
             <How />
             <Contact />
+            <p className="text-center text-xs text-muted-foreground md:col-span-4">Исполнитель: {LEGAL}</p>
           </div>
         </section>
       </div>
