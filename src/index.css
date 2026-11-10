@@ -167,6 +167,13 @@
   body {
     @apply bg-background text-foreground;
     }
+  button:not(:disabled),
+  [role="button"],
+  [role="tab"],
+  [role="switch"],
+  label:has([role="switch"]) {
+    cursor: pointer;
+    }
   html {
     @apply font-sans;
     }

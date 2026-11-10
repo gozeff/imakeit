@@ -46,7 +46,7 @@ type ProjectId = "disp" | "alex"
 
 const projects: Record<
   ProjectId,
-  { name: string; kind: string; url: string; href: string; desk: string; phone: string; bar: "light" | "dark"; links: [string, string][] }
+  { name: string; kind: string; url: string; href: string; desk: string; phone: string; bar: "light" | "dark"; links: [string, string, string][] }
 > = {
   disp: {
     name: "Голосовой диспетчер",
@@ -57,14 +57,14 @@ const projects: Record<
     phone: "img/disp-phone.jpg",
     bar: "light",
     links: [
-      ["Главная", "https://restdisp.ru/#home"],
-      ["Экономия", "https://restdisp.ru/#calc"],
-      ["Касса", "https://restdisp.ru/#pos"],
-      ["Веб-панель", "https://restdisp.ru/#panel"],
-      ["Бронь и баллы", "https://restdisp.ru/#more"],
-      ["Механика", "https://restdisp.ru/#logic"],
-      ["Сравнение", "https://restdisp.ru/#compare"],
-      ["Тарифы", "https://restdisp.ru/#tariff"],
+      ["Главная", "https://restdisp.ru/#home", "img/rd-home.jpg"],
+      ["Экономия", "https://restdisp.ru/#calc", "img/rd-calc.jpg"],
+      ["Касса", "https://restdisp.ru/#pos", "img/rd-pos.jpg"],
+      ["Веб-панель", "https://restdisp.ru/#panel", "img/rd-panel.jpg"],
+      ["Бронь и баллы", "https://restdisp.ru/#more", "img/rd-more.jpg"],
+      ["Механика", "https://restdisp.ru/#logic", "img/rd-logic.jpg"],
+      ["Сравнение", "https://restdisp.ru/#compare", "img/rd-compare.jpg"],
+      ["Тарифы", "https://restdisp.ru/#tariff", "img/rd-tariff.jpg"],
     ],
   },
   alex: {
@@ -76,11 +76,11 @@ const projects: Record<
     phone: "img/alex-phone.jpg",
     bar: "dark",
     links: [
-      ["Главная", "https://alex-cars.ru/"],
-      ["Каталог", "https://alex-cars.ru/#/catalog"],
-      ["Статьи", "https://alex-cars.ru/#/live"],
-      ["Как работаем", "https://alex-cars.ru/#/#how"],
-      ["Контакты", "https://alex-cars.ru/#/#contacts"],
+      ["Главная", "https://alex-cars.ru/", "img/alex-desk.jpg"],
+      ["Каталог", "https://alex-cars.ru/#/catalog", "img/al-catalog.jpg"],
+      ["Статьи", "https://alex-cars.ru/#/live", "img/al-live.jpg"],
+      ["Как работаем", "https://alex-cars.ru/#/#how", "img/al-how.jpg"],
+      ["Контакты", "https://alex-cars.ru/#/#contacts", "img/al-contacts.jpg"],
     ],
   },
 }
@@ -195,6 +195,13 @@ function Intro() {
 
 function MainTile({ id }: { id: ProjectId }) {
   const p = projects[id]
+  const [sec, setSec] = useState(0)
+  const [, secHref, secImg] = p.links[sec]
+  useEffect(() => {
+    p.links.forEach(([, , src]) => {
+      new Image().src = src
+    })
+  }, [p])
   return (
     <Card
       className={cn("relative overflow-hidden md:col-span-2 md:row-span-2", tile)}
@@ -217,25 +224,32 @@ function MainTile({ id }: { id: ProjectId }) {
         <SitePreview
           name={p.name}
           url={p.url}
-          href={p.href}
-          poster={p.desk}
+          href={secHref}
+          poster={secImg}
           trigger={
             <div className="flex flex-1 cursor-zoom-in flex-col" aria-label={`Увеличить ${p.name}`}>
-              <Shot url={p.url} src={p.desk} />
+              <Shot url={p.url} src={secImg} />
             </div>
           }
         />
       </CardContent>
       <CardFooter className="flex-col items-stretch gap-3">
-        <span className="text-center text-sm text-muted-foreground">Посмотрите на сайте</span>
+        <span className="text-center text-sm text-muted-foreground">Разделы сайта</span>
         <div
           className={cn(
             "grid grid-cols-2 gap-2",
             p.links.length === 5 ? "sm:grid-cols-5" : "sm:grid-cols-4"
           )}
         >
-          {p.links.map(([label, href]) => (
-            <Button key={href} variant="outline" size="sm" className="w-full rounded-full" render={ext(href)}>
+          {p.links.map(([label, href], i) => (
+            <Button
+              key={href}
+              variant={i === sec ? "default" : "outline"}
+              size="sm"
+              className="w-full rounded-full"
+              aria-pressed={i === sec}
+              onClick={() => setSec(i)}
+            >
               {label}
             </Button>
           ))}
@@ -562,7 +576,7 @@ export default function App() {
         <section className={panel} aria-label={pages[0]}>
           <div className={cn(grid, "md:grid-rows-2")}>
             <Intro />
-            <MainTile id={main} />
+            <MainTile key={main} id={main} />
             <SideTile id={side} onPick={swap} />
             <PhoneTile id={main} />
           </div>
@@ -578,18 +592,7 @@ export default function App() {
       </div>
 
       <footer className="relative border-t bg-background/60 backdrop-blur-md">
-        <div className="mx-auto grid h-14 max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-4 px-4 md:px-6">
-          <div className="flex items-center justify-end gap-1.5" aria-hidden="true">
-            {pages.map((p, i) => (
-              <span
-                key={p}
-                className={cn(
-                  "h-1.5 rounded-full transition-all duration-300",
-                  i === page ? "w-6 bg-foreground" : "w-1.5 bg-muted-foreground/30"
-                )}
-              />
-            ))}
-          </div>
+        <div className="mx-auto flex h-14 max-w-7xl items-center justify-center px-4 md:px-6">
           {page < pages.length - 1 ? (
             <Button size="lg" className="w-40" onClick={() => goTo(page + 1)}>
               Дальше
