@@ -146,7 +146,7 @@ function Shot({ url, src, href, dark }: { url: string; src: string; href?: strin
     </>
   )
   const cls =
-    "group/shot flex min-h-48 flex-1 flex-col overflow-hidden rounded-xl border bg-muted/40 shadow-sm ring-1 ring-foreground/5"
+    "group/shot flex min-h-48 flex-1 flex-col overflow-hidden rounded-lg border bg-muted/40 shadow-sm ring-1 ring-foreground/5"
   return href ? (
     <a href={href} target="_blank" rel="noreferrer" className={cls}>
       {inner}
