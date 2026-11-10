@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState, type ReactNode } from "react"
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react"
 import { ArrowUpRightIcon, BatteryFullIcon, CheckIcon, Maximize2Icon, Minimize2Icon, MousePointerClickIcon, SendIcon, SignalIcon, WifiIcon } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
@@ -55,6 +55,20 @@ function ScaledFrame({
       window.removeEventListener("resize", fit)
     }
   }, [w, h, fill])
+  // После клика по сайту клавиши уходят в него, и Esc не закрывает окно.
+  // Курсор вернулся на окно вокруг сайта - отдаём фокус окну, Esc снова работает
+  const frame = useRef<HTMLIFrameElement>(null)
+  useEffect(() => {
+    const back = () => {
+      const f = frame.current
+      if (!f || document.activeElement !== f) return
+      const dlg = f.closest<HTMLElement>("[role=dialog]")
+      if (dlg) dlg.focus()
+      else f.blur()
+    }
+    document.addEventListener("pointermove", back)
+    return () => document.removeEventListener("pointermove", back)
+  }, [])
   const { k, ih } = size
   return (
     <div
@@ -65,6 +79,7 @@ function ScaledFrame({
       {poster && <img src={poster} alt="" className="absolute inset-0 size-full object-cover object-left-top" />}
       {k > 0 && (
         <iframe
+          ref={frame}
           src={src}
           title={title}
           className="absolute top-0 left-0 origin-top-left border-0 bg-transparent"

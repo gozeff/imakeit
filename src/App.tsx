@@ -320,13 +320,13 @@ function PhoneTile({ id }: { id: ProjectId }) {
         bar={p.bar}
         trigger={
           <div
-            className="relative flex h-[26rem] cursor-zoom-in items-start justify-center px-6 pb-4 md:h-auto md:min-h-0 md:flex-1"
+            className="relative h-[22rem] cursor-zoom-in overflow-hidden md:h-auto md:min-h-0 md:flex-1"
             aria-label={`Полистать ${p.name} на телефоне`}
           >
             <PhoneFrame
               bar={p.bar}
-              className="transition-transform duration-500 group-hover/phone:-translate-y-1.5"
-              style={{ height: "100%", maxHeight: "31.5rem", maxWidth: "100%", viewTransitionName: "phone" }}
+              className="absolute top-5 left-1/2 origin-top -translate-x-1/2 transition-[translate,scale] duration-500 ease-out group-hover/phone:-translate-y-4 group-hover/phone:scale-[1.06] motion-reduce:transition-none"
+              style={{ width: "13rem", viewTransitionName: "phone" }}
             >
               <img src={p.phone} alt="" className="absolute inset-0 size-full object-cover object-top" />
             </PhoneFrame>
@@ -549,7 +549,12 @@ export default function App() {
   const scene = useScene()
   const track = useRef<HTMLDivElement>(null)
   const [page, setPage] = useState(0)
-  const [main, setMain] = useState<ProjectId>("disp")
+  const { theme } = useTheme()
+  const dark =
+    theme === "dark" || (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches)
+  // В центре - сайт в тон теме: на тёмной Алекс Авто, на светлой Диспетчер
+  const [main, setMain] = useState<ProjectId>(dark ? "alex" : "disp")
+  useEffect(() => setMain(dark ? "alex" : "disp"), [dark])
   const side: ProjectId = main === "disp" ? "alex" : "disp"
 
   const swap = () => {
