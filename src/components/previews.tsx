@@ -65,12 +65,14 @@ function ScaledFrame({
       style={fill ? undefined : { aspectRatio: `${w} / ${h}` }}
     >
       {poster && <img src={poster} alt="" className="absolute inset-0 size-full object-cover object-left-top" />}
-      <iframe
-        src={src}
-        title={title}
-        className="absolute top-0 left-0 origin-top-left border-0 bg-transparent"
-        style={{ width: w, height: ih, transform: `scale(${k || 0.5})`, visibility: k ? "visible" : "hidden" }}
-      />
+      {k > 0 && (
+        <iframe
+          src={src}
+          title={title}
+          className="absolute top-0 left-0 origin-top-left border-0 bg-transparent"
+          style={{ width: w, height: ih, transform: `scale(${k})` }}
+        />
+      )}
     </div>
   )
 }
@@ -130,16 +132,16 @@ export function SitePreview({
   href: string
   poster: string
 }) {
-  const [full, setFull] = useState(false)
+  const [full, setFull] = useState(true)
   return (
-    <Dialog onOpenChange={(o) => !o && setFull(false)}>
+    <Dialog onOpenChange={(o) => !o && setFull(true)}>
       <DialogTrigger nativeButton={false} render={trigger} />
       <DialogContent
         className={cn("gap-0 overflow-hidden p-0 transition-none sm:max-w-none", full && "flex flex-col")}
         style={
           full
             ? { width: "calc(100vw - 1rem)", height: "calc(100svh - 1rem)", maxWidth: "none" }
-            : { width: "min(64rem, calc((100svh - 11rem) * 1.6), calc(100vw - 2rem))", maxWidth: "none" }
+            : { width: "min(80rem, calc((100svh - 11rem) * 1.6), calc(100vw - 2rem))", maxWidth: "none" }
         }
       >
         <DialogHeader className="shrink-0 flex-row items-center justify-between gap-4 border-b px-4 py-3 pr-12">
