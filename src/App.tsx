@@ -10,6 +10,7 @@ import {
   MoonIcon,
   PencilRulerIcon,
   SendIcon,
+  SmartphoneIcon,
   StoreIcon,
   SunIcon,
 } from "lucide-react"
@@ -45,7 +46,7 @@ type ProjectId = "disp" | "alex"
 
 const projects: Record<
   ProjectId,
-  { name: string; kind: string; url: string; href: string; desk: string; phone: string; links: [string, string][] }
+  { name: string; kind: string; url: string; href: string; desk: string; phone: string; bar: "light" | "dark"; links: [string, string][] }
 > = {
   disp: {
     name: "Голосовой диспетчер",
@@ -54,6 +55,7 @@ const projects: Record<
     href: "https://restdisp.ru",
     desk: "img/rd-home.jpg",
     phone: "img/disp-phone.jpg",
+    bar: "light",
     links: [
       ["Главная", "https://restdisp.ru/#home"],
       ["Экономия", "https://restdisp.ru/#calc"],
@@ -72,6 +74,7 @@ const projects: Record<
     href: "https://alex-cars.ru",
     desk: "img/alex-desk.jpg",
     phone: "img/alex-phone.jpg",
+    bar: "dark",
     links: [
       ["Главная", "https://alex-cars.ru/"],
       ["Каталог", "https://alex-cars.ru/#/catalog"],
@@ -271,30 +274,36 @@ function SideTile({ id, onPick }: { id: ProjectId; onPick: () => void }) {
 function PhoneTile({ id }: { id: ProjectId }) {
   const p = projects[id]
   return (
-    <Card className={cn("relative min-h-80 overflow-hidden p-0", tile)}>
+    <Card className={cn("group/phone relative gap-3 overflow-hidden pb-0", tile)}>
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 opacity-60"
         style={{
           background:
-            "radial-gradient(60% 50% at 50% 70%, rgba(99,102,241,.35), transparent 70%), radial-gradient(40% 40% at 70% 30%, rgba(14,165,233,.25), transparent 70%)",
+            "radial-gradient(60% 45% at 50% 75%, rgba(99,102,241,.35), transparent 70%), radial-gradient(40% 40% at 75% 35%, rgba(14,165,233,.22), transparent 70%)",
         }}
       />
-      <Badge variant="outline" className="absolute top-4 left-4 z-10 rounded-full bg-background/70 backdrop-blur">
-        Версия для телефона
-      </Badge>
+      <CardHeader className="relative">
+        <CardTitle className="text-xl">На телефоне</CardTitle>
+        <CardDescription>{p.url} · нажмите и листайте</CardDescription>
+        <CardAction>
+          <SmartphoneIcon className="size-5 text-muted-foreground" aria-hidden="true" />
+        </CardAction>
+      </CardHeader>
       <PhonePreview
         name={p.name}
         href={p.href}
         poster={p.phone}
+        bar={p.bar}
         trigger={
           <div
-            className="absolute inset-x-0 top-14 bottom-0 flex cursor-zoom-in justify-center"
-            aria-label={`Увеличить ${p.name} на телефоне`}
+            className="relative flex h-[26rem] cursor-zoom-in items-start justify-center px-6 pb-4 [container-type:size] md:h-auto md:min-h-0 md:flex-1"
+            aria-label={`Полистать ${p.name} на телефоне`}
           >
             <PhoneFrame
-              className="h-fit w-[58%] max-w-56 transition-transform duration-500 group-hover/card:-translate-y-2"
-              style={{ viewTransitionName: "phone" }}
+              bar={p.bar}
+              className="transition-transform duration-500 group-hover/phone:-translate-y-1.5"
+              style={{ width: "min(15rem, 100cqw, calc(100cqh * 0.4754))", viewTransitionName: "phone" }}
             >
               <img src={p.phone} alt="" className="absolute inset-0 size-full object-cover object-top" />
             </PhoneFrame>

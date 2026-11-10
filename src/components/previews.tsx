@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, useState, type ReactNode } from "react"
-import { ArrowUpRightIcon, CheckIcon, SendIcon } from "lucide-react"
+import { ArrowUpRightIcon, BatteryFullIcon, CheckIcon, SendIcon, SignalIcon, WifiIcon } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -21,14 +21,33 @@ import { cn } from "@/lib/utils"
 export const TG_USER = "BarniSolo"
 export const LEGAL = "самозанятый Александров Александр Михайлович, ИНН 100118989078"
 
-/* Живой сайт в iframe, уменьшенный под ширину контейнера */
-function ScaledFrame({ src, w, h, title, poster }: { src: string; w: number; h: number; title: string; poster?: string }) {
+/* Живой сайт в iframe, уменьшенный под ширину контейнера.
+   fill - заполнить родителя целиком (экран телефона), высота сайта подстраивается */
+function ScaledFrame({
+  src,
+  w,
+  h,
+  title,
+  poster,
+  fill,
+}: {
+  src: string
+  w: number
+  h: number
+  title: string
+  poster?: string
+  fill?: boolean
+}) {
   const box = useRef<HTMLDivElement>(null)
-  const [k, setK] = useState(0)
+  const [size, setSize] = useState({ k: 0, ih: h })
   useLayoutEffect(() => {
     const el = box.current
     if (!el) return
-    const fit = () => el.offsetWidth && setK(el.offsetWidth / w)
+    const fit = () => {
+      if (!el.offsetWidth) return
+      const k = el.offsetWidth / w
+      setSize({ k, ih: fill && el.offsetHeight ? el.offsetHeight / k : h })
+    }
     fit()
     const ro = new ResizeObserver(fit)
     ro.observe(el)
@@ -37,31 +56,62 @@ function ScaledFrame({ src, w, h, title, poster }: { src: string; w: number; h: 
       ro.disconnect()
       window.removeEventListener("resize", fit)
     }
-  }, [w])
+  }, [w, h, fill])
+  const { k, ih } = size
   return (
-    <div ref={box} className="relative w-full overflow-hidden bg-muted" style={{ aspectRatio: `${w} / ${h}` }}>
+    <div
+      ref={box}
+      className={cn("relative w-full overflow-hidden bg-muted", fill && "h-full")}
+      style={fill ? undefined : { aspectRatio: `${w} / ${h}` }}
+    >
       {poster && <img src={poster} alt="" className="absolute inset-0 size-full object-cover object-left-top" />}
       <iframe
         src={src}
         title={title}
         className="absolute top-0 left-0 origin-top-left border-0 bg-transparent"
-        style={{ width: w, height: h, transform: `scale(${k || 0.5})`, visibility: k ? "visible" : "hidden" }}
+        style={{ width: w, height: ih, transform: `scale(${k || 0.5})`, visibility: k ? "visible" : "hidden" }}
       />
     </div>
   )
 }
 
-/* Рамка телефона: камера в верхней рамке, экран не перекрывает */
-export function PhoneFrame({ children, className, style }: { children: ReactNode; className?: string; style?: React.CSSProperties }) {
+/* Телефон: ровная тонкая рамка, боковые кнопки, строка состояния. Размер задаётся шириной */
+export function PhoneFrame({
+  children,
+  className,
+  style,
+  bar = "light",
+}: {
+  children: ReactNode
+  className?: string
+  style?: React.CSSProperties
+  bar?: "light" | "dark"
+}) {
+  const side = "absolute w-[1.1cqw] rounded-full bg-neutral-700"
   return (
-    <div
-      className={cn("rounded-[2.6rem] bg-neutral-950 p-2 pt-0 shadow-2xl ring-1 ring-white/10", className)}
-      style={style}
-    >
-      <div className="flex h-6 items-center justify-center" aria-hidden="true">
-        <span className="size-1.5 rounded-full bg-neutral-700" />
+    <div className={cn("@container relative", className)} style={{ aspectRatio: "0.4754", ...style }}>
+      <span aria-hidden="true" className={cn(side, "top-[17%] -left-[0.7cqw] h-[5%]")} />
+      <span aria-hidden="true" className={cn(side, "top-[25%] -left-[0.7cqw] h-[9%]")} />
+      <span aria-hidden="true" className={cn(side, "top-[36%] -left-[0.7cqw] h-[9%]")} />
+      <span aria-hidden="true" className={cn(side, "top-[28%] -right-[0.7cqw] h-[13%]")} />
+      <div className="size-full rounded-[15cqw] bg-neutral-950 p-[2.6cqw] shadow-2xl ring-1 ring-neutral-700/60">
+        <div
+          className={cn(
+            "flex size-full flex-col overflow-hidden rounded-[12.4cqw]",
+            bar === "dark" ? "bg-neutral-950 text-white" : "bg-white text-neutral-900",
+          )}
+        >
+          <div aria-hidden="true" className="flex h-[10cqw] shrink-0 items-end justify-between px-[8cqw] pb-[1.2cqw] text-[3.6cqw] font-semibold">
+            <span className="tabular-nums">9:41</span>
+            <span className="flex items-center gap-[1.4cqw]">
+              <SignalIcon className="size-[3.8cqw]" />
+              <WifiIcon className="size-[3.8cqw]" />
+              <BatteryFullIcon className="size-[4.6cqw]" />
+            </span>
+          </div>
+          <div className="relative min-h-0 flex-1">{children}</div>
+        </div>
       </div>
-      <div className="relative aspect-[390/844] overflow-hidden rounded-[2rem] bg-background">{children}</div>
     </div>
   )
 }
@@ -109,7 +159,19 @@ export function SitePreview({
 }
 
 /* Телефон → крупный живой телефон, можно листать */
-export function PhonePreview({ trigger, name, href, poster }: { trigger: React.ReactElement; name: string; href: string; poster: string }) {
+export function PhonePreview({
+  trigger,
+  name,
+  href,
+  poster,
+  bar,
+}: {
+  trigger: React.ReactElement
+  name: string
+  href: string
+  poster: string
+  bar?: "light" | "dark"
+}) {
   return (
     <Dialog>
       <DialogTrigger nativeButton={false} render={trigger} />
@@ -118,8 +180,8 @@ export function PhonePreview({ trigger, name, href, poster }: { trigger: React.R
         className="w-auto max-w-none items-center justify-items-center gap-3 bg-transparent p-0 ring-0 sm:max-w-none"
       >
         <DialogTitle className="sr-only">{name} на телефоне</DialogTitle>
-        <PhoneFrame style={{ width: "min(22rem, calc((100svh - 6rem) * 0.45))" }}>
-          <ScaledFrame src={href} w={390} h={844} title={`${name} на телефоне`} poster={poster} />
+        <PhoneFrame bar={bar} style={{ width: "min(22rem, calc((100svh - 6rem) * 0.4754))" }}>
+          <ScaledFrame fill src={href} w={390} h={844} title={`${name} на телефоне`} poster={poster} />
         </PhoneFrame>
         <Badge variant="secondary" className="rounded-full">
           Листайте и нажимайте - это настоящий сайт
