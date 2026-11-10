@@ -31,7 +31,6 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { DotPattern } from "@/components/ui/dot-pattern"
-import { Field, FieldLabel } from "@/components/ui/field"
 import { InputGroup, InputGroupInput } from "@/components/ui/input-group"
 import { LEGAL, PhoneFrame, PhonePreview, PlanDialog, SitePreview } from "@/components/previews"
 import { Switch } from "@/components/ui/switch"
@@ -160,7 +159,7 @@ function Intro() {
         )}
       />
       <CardContent className="relative flex flex-1 flex-col gap-4">
-        <h1 className="text-4xl font-semibold tracking-tight text-balance xl:text-5xl">
+        <h1 className="text-3xl font-semibold tracking-tight text-balance [@media(min-height:821px)]:text-4xl xl:[@media(min-height:821px)]:text-5xl">
           Делаю красивые сайты <AuroraText colors={AURORA}>по канонам</AuroraText>
         </h1>
         <p className="text-muted-foreground">
@@ -185,12 +184,6 @@ function Intro() {
           ))}
         </div>
       </CardContent>
-      <CardFooter className="relative flex-col items-stretch gap-2">
-        <Button render={ext(TG)}>
-          <SendIcon data-icon="inline-start" />
-          Написать в Telegram
-        </Button>
-      </CardFooter>
     </Card>
   )
 }
@@ -407,74 +400,54 @@ function Plans() {
 
 function How() {
   const steps = [
-    ["Смотрю, что у вас есть", "Канал, Авито, старый сайт или просто рассказ."],
-    ["Готовлю демо бесплатно", "Присылаю ссылку, смотрите на телефоне."],
-    ["Правки и оплата", "Платите, когда сайт нравится."],
-    ["Запуск", "Ваш домен, https и бот заявок. Код ваш, без конструкторов."],
+    ["Смотрю, что у вас есть", "Канал, Авито, старый сайт или просто рассказ."],
+    ["Готовлю демо бесплатно", "Присылаю ссылку, смотрите на телефоне."],
+    ["Правки и оплата", "Платите, когда сайт нравится."],
+    ["Запуск", "Ваш домен, https и бот заявок. Код ваш, без конструкторов."],
   ]
   return (
-    <Card className={cn("md:col-span-2", tile)}>
+    <Card className={cn("relative overflow-hidden md:col-span-4", tile)}>
       <CardHeader>
-        <CardDescription>Как работаю</CardDescription>
+        <CardDescription>Как работаю</CardDescription>
         <CardTitle className="text-xl">Сначала сайт, потом оплата</CardTitle>
       </CardHeader>
-      <CardContent className="grid flex-1 gap-4 sm:grid-cols-2">
+      <CardContent className="grid flex-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
         {steps.map(([t, d], i) => (
-          <div key={t} className="flex gap-3">
-            <span className="flex size-7 shrink-0 items-center justify-center rounded-full border bg-background text-sm font-semibold shadow-xs tabular-nums">
-              {i + 1}
-            </span>
-            <div className="flex flex-col gap-0.5">
+          <div key={t} className="flex gap-3 lg:flex-col">
+            <div className="flex items-start gap-3 lg:items-center">
+              <span className="flex size-8 shrink-0 items-center justify-center rounded-full border bg-background text-sm font-semibold shadow-xs tabular-nums">
+                {i + 1}
+              </span>
+              {i < steps.length - 1 && <span aria-hidden="true" className="hidden h-px flex-1 bg-border lg:block" />}
+            </div>
+            <div className="flex flex-col gap-1">
               <span className="font-medium">{t}</span>
               <span className="text-sm text-muted-foreground">{d}</span>
             </div>
           </div>
         ))}
       </CardContent>
-    </Card>
-  )
-}
-
-function Contact() {
-  return (
-    <Card className={cn("relative overflow-hidden md:col-span-2", tile)}>
-      <DotPattern
-        className={cn(
-          "text-muted-foreground/25",
-          "[mask-image:radial-gradient(300px_circle_at_top_right,white,transparent)]"
-        )}
-      />
-      <CardHeader className="relative">
-        <CardDescription>Связаться</CardDescription>
-        <CardTitle className="text-xl">Расскажите, какой сайт нужен</CardTitle>
-      </CardHeader>
-      <CardContent className="relative flex-1">
+      <CardFooter className="relative">
         <form
-          className="flex flex-col gap-3 sm:flex-row sm:items-end"
+          className="flex w-full flex-col gap-3 lg:flex-row lg:items-center lg:gap-4"
           onSubmit={(e) => {
             e.preventDefault()
             const link = new FormData(e.currentTarget).get("channel")?.toString().trim()
-            const text = link ? `Здравствуйте! Хочу сайт. Вот что у меня есть: ${link}` : "Здравствуйте! Хочу сайт."
+            const text = link ? `Здравствуйте! Хочу сайт. Вот что у меня есть: ${link}` : "Здравствуйте! Хочу сайт."
             window.open(`${TG}?text=${encodeURIComponent(text)}`, "_blank")
           }}
         >
-          <Field className="flex-1">
-            <FieldLabel htmlFor="channel">Ссылка на канал, Авито или сайт, если есть</FieldLabel>
-            <InputGroup>
-              <InputGroupInput id="channel" name="channel" placeholder="t.me/ваш_канал" />
-            </InputGroup>
-          </Field>
-          <Button type="submit">
+          <label htmlFor="channel" className="shrink-0 font-medium">
+            Расскажите, какой сайт нужен
+          </label>
+          <InputGroup className="lg:flex-1">
+            <InputGroupInput id="channel" name="channel" placeholder="Ссылка на канал, Авито или сайт" />
+          </InputGroup>
+          <Button type="submit" className="shrink-0">
             <SendIcon data-icon="inline-start" />
-            Отправить в Telegram
+            Отправить в Telegram
           </Button>
         </form>
-      </CardContent>
-      <CardFooter className="relative">
-        <Button variant="link" className="px-0" render={ext(TG)}>
-          или напишите в Telegram
-          <ArrowUpRightIcon data-icon="inline-end" />
-        </Button>
       </CardFooter>
     </Card>
   )
@@ -587,7 +560,6 @@ export default function App() {
           <div className={cn(grid, "md:h-auto md:min-h-full md:content-center")}>
             <Plans />
             <How />
-            <Contact />
             <p className="text-center text-xs text-muted-foreground md:col-span-4">Исполнитель: {LEGAL}</p>
           </div>
         </section>
