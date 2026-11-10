@@ -43,6 +43,12 @@ import { cn } from "@/lib/utils"
 
 const TG = "https://t.me/BarniSolo"
 const AURORA = ["#6366f1", "#8b5cf6", "#0ea5e9", "#6366f1"]
+const tones = {
+  indigo: { chip: "bg-indigo-500/15 text-indigo-600 ring-indigo-500/30 dark:text-indigo-300", wash: "from-indigo-500/25", line: "via-indigo-400/80", badge: "bg-indigo-500 text-white" },
+  violet: { chip: "bg-violet-500/15 text-violet-600 ring-violet-500/30 dark:text-violet-300", wash: "from-violet-500/25", line: "via-violet-400/80", badge: "bg-violet-500 text-white" },
+  sky: { chip: "bg-sky-500/15 text-sky-600 ring-sky-500/30 dark:text-sky-300", wash: "from-sky-500/25", line: "via-sky-400/80", badge: "bg-sky-500 text-white" },
+  emerald: { chip: "bg-emerald-500/15 text-emerald-600 ring-emerald-500/30 dark:text-emerald-300", wash: "from-emerald-500/25", line: "via-emerald-400/80", badge: "bg-emerald-500 text-white" },
+} as const
 const tile = "bg-card/85 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
 
 type ProjectId = "disp" | "alex"
@@ -92,11 +98,11 @@ const projects: Record<
 
 const pages = ["Работы", "Услуги и цены"]
 
-const doing = [
-  { icon: LayersIcon, t: "Сайт продукта", d: "как restdisp.ru" },
-  { icon: SendIcon, t: "Витрина из Telegram-канала", d: "как alex-cars.ru" },
-  { icon: StoreIcon, t: "Витрина из Авито", d: "объявления и сообщения в одном месте" },
-  { icon: PencilRulerIcon, t: "Визитка", d: "одна страница с контактами" },
+const doing: { icon: typeof LayersIcon; tone: keyof typeof tones; t: string; d: string }[] = [
+  { icon: LayersIcon, tone: "violet", t: "Сайт продукта", d: "как restdisp.ru" },
+  { icon: SendIcon, tone: "sky", t: "Витрина из Telegram-канала", d: "как alex-cars.ru" },
+  { icon: StoreIcon, tone: "emerald", t: "Витрина из Авито", d: "объявления и сообщения в одном месте" },
+  { icon: PencilRulerIcon, tone: "indigo", t: "Визитка", d: "одна страница с контактами" },
 ]
 
 function ThemeSwitch() {
@@ -177,7 +183,7 @@ function Intro() {
         <div className="mt-auto flex flex-col gap-3">
           {doing.map((s) => (
             <div key={s.t} className="flex items-center gap-3">
-              <span className="flex size-10 shrink-0 items-center justify-center rounded-lg border bg-background shadow-xs">
+              <span className={cn("flex size-10 shrink-0 items-center justify-center rounded-lg ring-1", tones[s.tone].chip)}>
                 <s.icon className="size-4" aria-hidden="true" />
               </span>
               <span className="flex flex-col">
@@ -336,109 +342,154 @@ function Plans() {
   const plans = [
     {
       t: "Визитка", price: "от 15 000", d: "Одна страница: кто вы, что делаете, как связаться.", ex: null,
-      icon: PencilRulerIcon, c: "text-indigo-300 bg-indigo-500/20 ring-indigo-400/30", g: "from-indigo-500/12",
-      b: ["Кнопки «Позвонить» и «Написать»", "Форма заявки прямо на странице", "Светлая и тёмная тема"],
+      icon: PencilRulerIcon, tone: "indigo",
+      b: ["Кнопки звонка и Telegram", "Форма заявки на странице", "Светлая и тёмная тема"],
       more: ["Одна красивая страница о вас и вашем деле", "Кнопки Telegram и телефона", "Форма заявки - заявки приходят в Telegram", "Версия для телефона", "Светлая и тёмная тема", "Свой домен с https, хостинг бесплатно"],
       need: ["Рассказ о деле: что делаете и для кого", "Логотип и фото, если есть", "Домен - поможем выбрать и подключить"],
     },
     {
       t: "Сайт продукта", price: "от 60 000", d: "Экраны листаются, как презентация.", ex: ["restdisp.ru", "https://restdisp.ru", "img/rd-home.jpg"],
-      icon: LayersIcon, c: "text-violet-300 bg-violet-500/20 ring-violet-400/30", g: "from-violet-500/12",
-      b: ["Экраны с вкладками", "Расчёт выгоды по цифрам клиента", "Примеры, сравнение, тарифы"],
+      icon: LayersIcon, tone: "violet",
+      b: ["Экраны с вкладками", "Расчёт по цифрам клиента", "Примеры, сравнение, тарифы"],
       more: ["Несколько экранов, каждый со своей мыслью", "Вкладки сверху, «Назад» и «Дальше» снизу", "Расчёт выгоды прямо на странице - по цифрам клиента", "Примеры, сравнение, тарифы", "Отдельная вёрстка для телефона", "Заявки в Telegram, свой домен с https"],
       need: ["Рассказ о продукте и кому он нужен", "Цифры для расчёта и тарифы", "Домен - поможем выбрать и подключить"],
     },
     {
       t: "Витрина из канала", price: "от 40 000", d: "Пост в Telegram-канале сам становится карточкой на сайте.", ex: ["alex-cars.ru", "https://alex-cars.ru", "img/alex-desk.jpg"],
-      icon: SendIcon, c: "text-sky-300 bg-sky-500/20 ring-sky-400/30", g: "from-sky-500/12",
+      icon: SendIcon, tone: "sky",
       b: ["Каталог из постов канала", "Новый пост на сайте за минуты", "Подбор по цене и параметрам"],
       more: ["Каталог собирается из постов канала сам", "Новый пост на сайте через пару минут", "Подбор по цене и параметрам", "Заявки с сайта сразу в Telegram", "Все заявки в Excel одной кнопкой", "Версия для телефона, свой домен с https"],
       need: ["Ссылка на открытый Telegram-канал", "Добавить нашего бота в канал администратором", "Домен - поможем выбрать и подключить"],
     },
     {
       t: "Витрина из Авито", price: "от 50 000", d: "Объявления с Авито сами появляются на сайте.", ex: null,
-      icon: StoreIcon, c: "text-emerald-300 bg-emerald-500/20 ring-emerald-400/30", g: "from-emerald-500/12",
-      b: ["Объявления переносятся сами", "Сообщения покупателей в Telegram", "Все заявки в Excel одной кнопкой"],
+      icon: StoreIcon, tone: "emerald",
+      b: ["Объявления переносятся сами", "Сообщения с Авито - в Telegram", "Заявки в Excel одной кнопкой"],
       more: ["Ваши объявления с Авито сами появляются на сайте", "Сообщения покупателей с Авито приходят в Telegram", "Заявки с сайта - туда же", "Все заявки в Excel одной кнопкой", "Версия для телефона, свой домен с https"],
       need: ["Кабинет Авито и ключи доступа из раздела «Для профессионалов»", "Домен - поможем выбрать и подключить"],
     },
   ] as const
   return (
     <>
-      {plans.map((p, i) => (
-        <PlanDialog
-          key={p.t}
-          plan={p}
-          trigger={
-        <Card className={cn("relative cursor-pointer overflow-hidden bg-gradient-to-b to-transparent", p.g, tile)}>
-          {i === 1 && <ShineBorder shineColor={AURORA} borderWidth={2} duration={10} />}
-          <CardHeader>
-            <span className={cn("mb-2 flex size-10 items-center justify-center rounded-lg ring-1", p.c)}>
-              <p.icon className="size-5" aria-hidden="true" />
-            </span>
-            <CardTitle className="text-lg">{p.t}</CardTitle>
-            <CardDescription>{p.d}</CardDescription>
-            {i === 1 && (
-              <CardAction>
-                <Badge className="rounded-full">Как restdisp.ru</Badge>
-              </CardAction>
-            )}
-          </CardHeader>
-          <CardContent className="flex flex-1 flex-col gap-4">
-            <p className="text-3xl font-semibold tracking-tight tabular-nums">{p.price} ₽</p>
-            <ul className="flex flex-col gap-2 text-sm text-foreground/90">
-              {p.b.map((x) => (
-                <li key={x} className="flex items-start gap-2">
-                  <span className={cn("mt-px flex size-5 shrink-0 items-center justify-center rounded-full ring-1", p.c)}>
-                    <CheckIcon className="size-3" aria-hidden="true" />
+      {plans.map((p, i) => {
+        const t = tones[p.tone]
+        return (
+          <PlanDialog
+            key={p.t}
+            plan={p}
+            trigger={
+              <Card className={cn("relative cursor-pointer gap-3 overflow-visible md:col-span-2 lg:col-span-1", tile)}>
+                <span
+                  aria-hidden="true"
+                  className={cn("pointer-events-none absolute inset-0 rounded-[inherit] bg-radial-[at_0%_0%] to-transparent to-65%", t.wash)}
+                />
+                <span
+                  aria-hidden="true"
+                  className={cn("pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent to-transparent", t.line)}
+                />
+                {i === 1 && <ShineBorder shineColor={AURORA} borderWidth={2} duration={10} />}
+                {p.ex && (
+                  <Badge className={cn("absolute -top-2.5 right-4 z-10 rounded-full shadow-md", t.badge)}>
+                    {"Как\u00a0" + p.ex[0]}
+                  </Badge>
+                )}
+                <CardHeader className="relative">
+                  <div className="flex items-center gap-2.5 lg:flex-col lg:items-start lg:gap-2 min-[68.75rem]:flex-row min-[68.75rem]:items-center min-[68.75rem]:gap-2.5">
+                    <span className={cn("flex size-9 shrink-0 items-center justify-center rounded-lg ring-1", t.chip)}>
+                      <p.icon className="size-4.5" aria-hidden="true" />
+                    </span>
+                    <CardTitle className="text-lg">{p.t}</CardTitle>
+                  </div>
+                  <CardDescription className="md:min-h-10 lg:min-h-15 min-[75rem]:min-h-10">{p.d}</CardDescription>
+                </CardHeader>
+                <CardContent className="relative flex flex-1 flex-col gap-3">
+                  <p className="flex items-baseline gap-1.5 tabular-nums">
+                    <span className="text-sm text-muted-foreground">от</span>
+                    <span className="text-3xl font-semibold tracking-tight">{p.price.replace(/^от\s/, "")} ₽</span>
+                  </p>
+                  <ul className="flex flex-col gap-1.5 text-sm text-foreground/90">
+                    {p.b.map((x) => (
+                      <li key={x} className="flex items-start gap-2">
+                        <span className={cn("mt-px flex size-5 shrink-0 items-center justify-center rounded-full ring-1", t.chip)}>
+                          <CheckIcon className="size-3" aria-hidden="true" />
+                        </span>
+                        {x}
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+                <CardFooter className="relative justify-between py-2.5 text-sm font-medium">
+                  Подробнее и заявка
+                  <span
+                    className={cn(
+                      "flex size-7 items-center justify-center rounded-full ring-1 transition-transform group-hover/card:translate-x-1",
+                      t.chip
+                    )}
+                  >
+                    <ArrowRightIcon className="size-4" aria-hidden="true" />
                   </span>
-                  {x}
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-          <CardFooter className="justify-between text-sm font-medium">
-            Подробнее и заявка
-            <ArrowRightIcon className="size-4 transition-transform group-hover/card:translate-x-1" aria-hidden="true" />
-          </CardFooter>
-        </Card>
-          }
-        />
-      ))}
+                </CardFooter>
+              </Card>
+            }
+          />
+        )
+      })}
     </>
   )
 }
 
 function How() {
   const steps = [
-    { icon: SearchIcon, c: "text-indigo-300 bg-indigo-500/20 ring-indigo-400/30", g: "from-indigo-500/15", t: "Смотрю, что у вас есть", d: "Канал, Авито, старый сайт или просто рассказ." },
-    { icon: SparklesIcon, c: "text-violet-300 bg-violet-500/20 ring-violet-400/30", g: "from-violet-500/15", t: "Готовлю демо бесплатно", d: "Присылаю ссылку, смотрите на телефоне." },
-    { icon: WalletIcon, c: "text-sky-300 bg-sky-500/20 ring-sky-400/30", g: "from-sky-500/15", t: "Правки и оплата", d: "Платите, когда сайт нравится." },
-    { icon: RocketIcon, c: "text-emerald-300 bg-emerald-500/20 ring-emerald-400/30", g: "from-emerald-500/15", t: "Запуск", d: "Ваш домен, https и бот заявок. Код ваш, без конструкторов." },
+    { icon: SearchIcon, dot: "from-indigo-500 to-violet-500", seg: "bg-violet-500/60", t: "Смотрю, что у вас есть", d: "Канал, Авито, старый сайт или просто рассказ." },
+    { icon: SparklesIcon, dot: "from-violet-500 to-blue-500", seg: "bg-blue-500/60", t: "Готовлю демо бесплатно", d: "Присылаю ссылку, смотрите на телефоне." },
+    { icon: WalletIcon, dot: "from-blue-500 to-sky-500", seg: "bg-sky-500/60", t: "Правки и оплата", d: "Платите, когда сайт нравится." },
+    { icon: RocketIcon, dot: "from-sky-500 to-emerald-500", seg: "", t: "Запуск", d: "Ваш домен, https и бот заявок. Код ваш, без конструкторов." },
   ]
   return (
-    <Card className={cn("relative overflow-hidden md:col-span-4", tile)}>
-      <CardHeader>
-        <CardDescription>Как работаю</CardDescription>
-        <CardTitle className="text-xl">Сначала сайт, потом оплата</CardTitle>
-      </CardHeader>
-      <CardContent className="grid flex-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        {steps.map((s, i) => (
-          <div key={s.t} className={cn("flex flex-col gap-3 rounded-xl border bg-gradient-to-b to-transparent p-4", s.g)}>
-            <div className="flex items-center justify-between">
-              <span className={cn("flex size-10 items-center justify-center rounded-lg ring-1", s.c)}>
+    <Card className="relative gap-0 overflow-hidden bg-card/85 py-0 backdrop-blur-md md:col-span-4">
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-400/70 to-transparent"
+      />
+      <CardContent className="grid gap-5 py-4 lg:grid-cols-5 lg:gap-6">
+        <div className="flex flex-col gap-1">
+          <span className="text-sm text-muted-foreground">Как работаю</span>
+          <h2 className="text-2xl leading-tight font-semibold tracking-tight">
+            Сначала сайт,{" "}
+            <span className="lg:block">
+              <AuroraText colors={AURORA}>потом оплата</AuroraText>
+            </span>
+          </h2>
+        </div>
+        <ol className="grid gap-4 sm:grid-cols-2 lg:col-span-4 lg:grid-cols-4 lg:gap-6">
+          {steps.map((s, i) => (
+            <li key={s.t} className="relative flex gap-3 lg:flex-col lg:gap-2.5">
+              {s.seg && (
+                <span
+                  aria-hidden="true"
+                  className={cn("absolute top-[1.1875rem] -right-3 left-[3.25rem] hidden h-0.5 rounded-full lg:block", s.seg)}
+                />
+              )}
+              <span
+                className={cn(
+                  "relative flex size-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br text-white shadow-lg",
+                  s.dot
+                )}
+              >
                 <s.icon className="size-5" aria-hidden="true" />
+                <span className="absolute -right-1 -bottom-1 flex size-4.5 items-center justify-center rounded-full bg-background text-[0.625rem] font-bold text-foreground ring-1 ring-foreground/15 tabular-nums">
+                  {i + 1}
+                </span>
               </span>
-              <span className="text-3xl font-semibold text-foreground/15 tabular-nums">{i + 1}</span>
-            </div>
-            <div className="flex flex-col gap-1">
-              <span className="text-base font-semibold">{s.t}</span>
-              <span className="text-sm text-foreground/75">{s.d}</span>
-            </div>
-          </div>
-        ))}
+              <div className="flex flex-col gap-0.5">
+                <span className="text-base leading-snug font-semibold">{s.t}</span>
+                <span className="text-sm text-foreground/70">{s.d}</span>
+              </div>
+            </li>
+          ))}
+        </ol>
       </CardContent>
-      <CardFooter className="relative bg-gradient-to-r from-indigo-500/20 via-violet-500/15 to-sky-500/20">
+      <CardFooter className="relative bg-gradient-to-r from-indigo-500/20 via-violet-500/15 to-sky-500/20 py-3">
         <form
           className="flex w-full flex-col gap-3 lg:flex-row lg:items-center lg:gap-4"
           onSubmit={(e) => {
@@ -571,13 +622,18 @@ export default function App() {
           <div className={cn(grid, "md:h-auto md:min-h-full md:content-center")}>
             <Plans />
             <How />
-            <p className="text-center text-xs text-muted-foreground md:col-span-4">Исполнитель: {LEGAL}</p>
+            <p className="text-center text-xs text-muted-foreground md:col-span-4 lg:hidden">Исполнитель: {LEGAL}</p>
           </div>
         </section>
       </div>
 
       <footer className="relative border-t bg-background/60 backdrop-blur-md">
-        <div className="mx-auto flex h-14 max-w-7xl items-center justify-center px-4 md:px-6">
+        <div className="relative mx-auto flex h-14 max-w-7xl items-center justify-center px-4 md:px-6">
+          {page === pages.length - 1 && (
+            <p className="absolute left-6 hidden max-w-[calc(50%-7rem)] text-xs text-muted-foreground lg:block">
+              Исполнитель: {LEGAL}
+            </p>
+          )}
           {page < pages.length - 1 ? (
             <Button size="lg" className="w-40" onClick={() => goTo(page + 1)}>
               Дальше
