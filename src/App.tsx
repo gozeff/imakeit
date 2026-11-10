@@ -165,6 +165,10 @@ function Intro() {
           Сайты продуктов и витрины, которые наполняются сами. Заявки сразу в Telegram, свой
           домен, хостинг бесплатно.
         </p>
+        <p className="text-sm text-muted-foreground">
+          <span className="font-medium text-foreground">Настоящий код, не конструктор.</span> Сайт
+          ваш и ни к какой платформе не привязан.
+        </p>
         <div className="mt-auto flex flex-col gap-3">
           {doing.map((s) => (
             <div key={s.t} className="flex items-center gap-3">
@@ -388,9 +392,9 @@ function Plans() {
 function How() {
   const steps = [
     ["Смотрю, что у вас есть", "Канал, Авито, старый сайт или просто рассказ."],
-    ["Собираю демо бесплатно", "Присылаю ссылку, смотрите на телефоне."],
+    ["Готовлю демо бесплатно", "Присылаю ссылку, смотрите на телефоне."],
     ["Правки и оплата", "Платите, когда сайт нравится."],
-    ["Запуск", "Ваш домен, https и бот заявок."],
+    ["Запуск", "Ваш домен, https и бот заявок. Код ваш, без конструкторов."],
   ]
   return (
     <Card className={cn("md:col-span-2", tile)}>
@@ -426,25 +430,27 @@ function Contact() {
       />
       <CardHeader className="relative">
         <CardDescription>Связаться</CardDescription>
-        <CardTitle className="text-xl">Пришлите ссылку - покажу ваш сайт</CardTitle>
+        <CardTitle className="text-xl">Расскажите, какой сайт нужен</CardTitle>
       </CardHeader>
       <CardContent className="relative flex-1">
         <form
           className="flex flex-col gap-3 sm:flex-row sm:items-end"
           onSubmit={(e) => {
             e.preventDefault()
-            window.open(TG, "_blank")
+            const link = new FormData(e.currentTarget).get("channel")?.toString().trim()
+            const text = link ? `Здравствуйте! Хочу сайт. Вот что у меня есть: ${link}` : "Здравствуйте! Хочу сайт."
+            window.open(`${TG}?text=${encodeURIComponent(text)}`, "_blank")
           }}
         >
           <Field className="flex-1">
-            <FieldLabel htmlFor="channel">Канал, Авито или сайт</FieldLabel>
+            <FieldLabel htmlFor="channel">Ссылка на канал, Авито или сайт, если есть</FieldLabel>
             <InputGroup>
-              <InputGroupInput id="channel" placeholder="t.me/ваш_канал" />
+              <InputGroupInput id="channel" name="channel" placeholder="t.me/ваш_канал" />
             </InputGroup>
           </Field>
           <Button type="submit">
-            Показать мой сайт
-            <ArrowRightIcon data-icon="inline-end" />
+            <SendIcon data-icon="inline-start" />
+            Отправить в Telegram
           </Button>
         </form>
       </CardContent>
@@ -572,39 +578,29 @@ export default function App() {
       </div>
 
       <footer className="relative border-t bg-background/60 backdrop-blur-md">
-        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 px-4 md:px-6">
-          <div className="w-32">
-            {page > 0 && (
-              <Button variant="outline" size="lg" className="w-full" onClick={() => goTo(page - 1)}>
-                <ArrowLeftIcon data-icon="inline-start" />
-                Назад
-              </Button>
-            )}
+        <div className="mx-auto grid h-14 max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-4 px-4 md:px-6">
+          <div className="flex items-center justify-end gap-1.5" aria-hidden="true">
+            {pages.map((p, i) => (
+              <span
+                key={p}
+                className={cn(
+                  "h-1.5 rounded-full transition-all duration-300",
+                  i === page ? "w-6 bg-foreground" : "w-1.5 bg-muted-foreground/30"
+                )}
+              />
+            ))}
           </div>
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1.5" aria-hidden="true">
-              {pages.map((p, i) => (
-                <span
-                  key={p}
-                  className={cn(
-                    "h-1.5 rounded-full transition-all duration-300",
-                    i === page ? "w-6 bg-foreground" : "w-1.5 bg-muted-foreground/30"
-                  )}
-                />
-              ))}
-            </div>
-            <span className="text-sm whitespace-nowrap text-muted-foreground tabular-nums">
-              {page + 1} из {pages.length}
-            </span>
-          </div>
-          <div className="w-32">
-            {page < pages.length - 1 && (
-              <Button size="lg" className="w-full" onClick={() => goTo(page + 1)}>
-                Дальше
-                <ArrowRightIcon data-icon="inline-end" />
-              </Button>
-            )}
-          </div>
+          {page < pages.length - 1 ? (
+            <Button size="lg" className="w-40" onClick={() => goTo(page + 1)}>
+              Дальше
+              <ArrowRightIcon data-icon="inline-end" />
+            </Button>
+          ) : (
+            <Button variant="outline" size="lg" className="w-40" onClick={() => goTo(page - 1)}>
+              <ArrowLeftIcon data-icon="inline-start" />
+              Назад
+            </Button>
+          )}
         </div>
       </footer>
     </div>

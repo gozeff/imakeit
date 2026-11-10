@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, useState, type ReactNode } from "react"
-import { ArrowUpRightIcon, BatteryFullIcon, CheckIcon, SendIcon, SignalIcon, WifiIcon } from "lucide-react"
+import { ArrowUpRightIcon, BatteryFullIcon, CheckIcon, MousePointerClickIcon, SendIcon, SignalIcon, WifiIcon } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -138,16 +138,18 @@ export function SitePreview({
         style={{ width: "min(64rem, calc((100svh - 11rem) * 1.6), calc(100vw - 2rem))", maxWidth: "none" }}
       >
         <DialogHeader className="flex-row items-center justify-between gap-4 border-b px-4 py-3 pr-12">
-          <div className="flex flex-col gap-0.5">
-            <DialogTitle>{name}</DialogTitle>
-            <DialogDescription>Живой сайт - можно листать и нажимать</DialogDescription>
-          </div>
+          <DialogTitle>{name}</DialogTitle>
+          <DialogDescription className="sr-only">Живой сайт: можно смотреть, кликать и листать</DialogDescription>
           <Badge variant="outline" className="hidden rounded-full sm:inline-flex">
             {url}
           </Badge>
         </DialogHeader>
         <ScaledFrame src={href} w={1440} h={900} title={name} poster={poster} />
-        <DialogFooter className="m-0 flex-row items-center justify-end border-t px-4 py-3">
+        <DialogFooter className="m-0 flex-row items-center justify-between gap-4 border-t px-4 py-3">
+          <span className="flex items-center gap-2 text-sm font-medium">
+            <MousePointerClickIcon className="size-4 text-muted-foreground" aria-hidden="true" />
+            Это живой сайт - можно смотреть, кликать и листать
+          </span>
           <Button size="lg" render={<a href={href} target="_blank" rel="noreferrer" />}>
             Перейти и посмотреть, как это работает
             <ArrowUpRightIcon data-icon="inline-end" />
@@ -184,7 +186,7 @@ export function PhonePreview({
           <ScaledFrame fill src={href} w={390} h={844} title={`${name} на телефоне`} poster={poster} />
         </PhoneFrame>
         <Badge variant="secondary" className="rounded-full">
-          Листайте и нажимайте - это настоящий сайт
+          Живой сайт - можно смотреть, кликать и листать
         </Badge>
       </DialogContent>
     </Dialog>
