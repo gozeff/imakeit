@@ -251,7 +251,7 @@ function MainTile({ id }: { id: ProjectId }) {
               key={href}
               variant={i === sec ? "default" : "outline"}
               size="sm"
-              className="w-full rounded-full"
+              className="w-full"
               aria-pressed={i === sec}
               onClick={() => setSec(i)}
             >
@@ -320,13 +320,13 @@ function PhoneTile({ id }: { id: ProjectId }) {
         bar={p.bar}
         trigger={
           <div
-            className="relative flex h-[26rem] cursor-zoom-in items-start justify-center px-6 pb-4 [container-type:size] md:h-auto md:min-h-0 md:flex-1"
+            className="relative flex h-[26rem] cursor-zoom-in items-start justify-center px-6 pb-4 md:h-auto md:min-h-0 md:flex-1"
             aria-label={`Полистать ${p.name} на телефоне`}
           >
             <PhoneFrame
               bar={p.bar}
               className="transition-transform duration-500 group-hover/phone:-translate-y-1.5"
-              style={{ width: "min(15rem, 100cqw, calc(100cqh * 0.4754))", viewTransitionName: "phone" }}
+              style={{ height: "100%", maxHeight: "31.5rem", maxWidth: "100%", viewTransitionName: "phone" }}
             >
               <img src={p.phone} alt="" className="absolute inset-0 size-full object-cover object-top" />
             </PhoneFrame>
@@ -523,14 +523,16 @@ function How() {
    поэтому масштаб Windows/браузера и размер экрана не меняют раскладку. Телефоны не трогаем. */
 const SCENE_W = 1440
 const SCENE_H = 900
-const SCENE_MIN = 0.7
+const SCENE_MIN = 0.2
 
 function useScene() {
   const calc = () => {
     if (typeof window === "undefined") return null
     const w = window.innerWidth
     const h = window.innerHeight
-    if (w < 1024 || !window.matchMedia("(pointer: fine)").matches) return null
+    // Ширина окна в точках экрана: от масштаба браузера не зависит (innerWidth при «+» уменьшается)
+    const screenW = window.outerWidth || w
+    if (screenW < 1024 || !window.matchMedia("(pointer: fine)").matches) return null
     const k = Math.max(SCENE_MIN, Math.min(w / SCENE_W, h / SCENE_H))
     return { k, w: w / k, h: h / k }
   }
@@ -620,7 +622,7 @@ export default function App() {
           <Tabs value={String(page)} onValueChange={(v) => goTo(Number(v))}>
             <TabsList>
               {pages.map((p, i) => (
-                <TabsTrigger key={p} value={String(i)}>
+                <TabsTrigger key={p} value={String(i)} className="px-3">
                   {p}
                 </TabsTrigger>
               ))}
