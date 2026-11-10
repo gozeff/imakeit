@@ -131,7 +131,7 @@ function Shot({ url, src, href }: { url: string; src: string; href?: string }) {
         <img
           src={src}
           alt={url}
-          className="absolute inset-0 size-full object-cover object-left-top transition-transform duration-700 ease-out group-hover/shot:scale-[1.03]"
+          className="absolute inset-0 size-full object-cover object-top transition-transform duration-700 ease-out group-hover/shot:scale-[1.03]"
         />
       </div>
     </>
