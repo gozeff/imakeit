@@ -48,8 +48,8 @@ const projects: Record<
   { name: string; kind: string; url: string; href: string; desk: string; phone: string; links: [string, string][] }
 > = {
   disp: {
-    name: "Диспетчер",
-    kind: "Сайт продукта",
+    name: "Голосовой диспетчер",
+    kind: "Приём заказов по телефону для доставки суши",
     url: "restdisp.ru",
     href: "https://restdisp.ru",
     desk: "img/rd-home.jpg",
@@ -347,7 +347,7 @@ function Plans() {
             <CardDescription>{p.d}</CardDescription>
             {i === 1 && (
               <CardAction>
-                <Badge className="rounded-full">Как у Диспетчера</Badge>
+                <Badge className="rounded-full">Как restdisp.ru</Badge>
               </CardAction>
             )}
           </CardHeader>
@@ -578,7 +578,7 @@ export default function App() {
                 />
               ))}
             </div>
-            <span className="text-sm text-muted-foreground tabular-nums">
+            <span className="text-sm whitespace-nowrap text-muted-foreground tabular-nums">
               {page + 1} из {pages.length}
             </span>
           </div>
