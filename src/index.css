@@ -4,6 +4,8 @@
 @import "@fontsource-variable/geist";
 
 @custom-variant dark (&:is(.dark *));
+/* Только светлая тема (тёмная утверждена и не меняется) */
+@custom-variant light (&:not(.dark *));
 
 /* Сцена (useScene): раскладка всегда как на широком экране, при любом масштабе браузера */
 @custom-variant sm { @media (width >= 40rem) { @slot; } &:where(.scene, .scene *) { @slot; } }

@@ -49,7 +49,10 @@ const tones = {
   sky: { chip: "bg-sky-500/15 text-sky-600 ring-sky-500/30 dark:text-sky-300", wash: "from-sky-500/25", line: "via-sky-400/80", badge: "bg-sky-500 text-white" },
   emerald: { chip: "bg-emerald-500/15 text-emerald-600 ring-emerald-500/30 dark:text-emerald-300", wash: "from-emerald-500/25", line: "via-emerald-400/80", badge: "bg-emerald-500 text-white" },
 } as const
-const tile = "bg-card/85 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+const tile = "bg-card/85 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl light:bg-radial-[at_0%_0%] light:to-transparent light:to-65%"
+// Светлая тема: цвет уголка карточки - как у карточек цен (Сайт продукта - фиолетовый, витрина - голубой)
+const tileWash = { violet: "light:from-violet-500/25", sky: "light:from-sky-500/25", indigo: "light:from-indigo-500/25" } as const
+const projWash = (id: ProjectId) => (id === "disp" ? tileWash.violet : tileWash.sky)
 
 type ProjectId = "disp" | "alex"
 
@@ -160,7 +163,7 @@ function Shot({ url, src, href, dark }: { url: string; src: string; href?: strin
 
 function Intro() {
   return (
-    <Card className={cn("relative overflow-hidden md:row-span-2", tile)}>
+    <Card className={cn("relative overflow-hidden md:row-span-2", tile, tileWash.indigo)}>
       <ShineBorder shineColor={AURORA} duration={16} />
       <DotPattern
         className={cn(
@@ -209,7 +212,7 @@ function MainTile({ id }: { id: ProjectId }) {
   }, [p])
   return (
     <Card
-      className={cn("relative overflow-hidden md:col-span-2 md:row-span-2", tile)}
+      className={cn("relative overflow-hidden md:col-span-2 md:row-span-2", tile, projWash(id))}
       style={{ viewTransitionName: `proj-${id}` }}
     >
       <BorderBeam size={240} duration={12} />
@@ -272,7 +275,7 @@ function SideTile({ id, onPick }: { id: ProjectId; onPick: () => void }) {
       tabIndex={0}
       onClick={onPick}
       onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && onPick()}
-      className={cn("relative cursor-pointer overflow-hidden", tile)}
+      className={cn("relative cursor-pointer overflow-hidden", tile, projWash(id))}
       style={{ viewTransitionName: `proj-${id}` }}
     >
       <CardHeader>
@@ -297,7 +300,7 @@ function SideTile({ id, onPick }: { id: ProjectId; onPick: () => void }) {
 function PhoneTile({ id }: { id: ProjectId }) {
   const p = projects[id]
   return (
-    <Card className={cn("group/phone relative gap-3 overflow-hidden pb-0", tile)}>
+    <Card className={cn("group/phone relative gap-3 overflow-hidden pb-0", tile, projWash(id))}>
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 opacity-60"
@@ -605,13 +608,13 @@ export default function App() {
 
   return (
     <div
-      className={cn("relative flex h-svh flex-col overflow-hidden bg-background text-foreground", scene && "scene")}
+      className={cn("relative flex h-svh flex-col overflow-hidden bg-background text-foreground light:bg-muted/50", scene && "scene")}
       style={scene ? { zoom: scene.k, width: scene.w, height: scene.h } : undefined}
     >
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-40 -left-40 size-[36rem] rounded-full bg-indigo-500/10 blur-3xl" />
-        <div className="absolute top-1/3 -right-40 size-[32rem] rounded-full bg-sky-500/10 blur-3xl" />
-        <div className="absolute -bottom-48 left-1/3 size-[30rem] rounded-full bg-violet-500/10 blur-3xl" />
+        <div className="absolute -top-40 -left-40 size-[36rem] rounded-full bg-indigo-500/10 blur-3xl light:bg-indigo-500/20" />
+        <div className="absolute top-1/3 -right-40 size-[32rem] rounded-full bg-sky-500/10 blur-3xl light:bg-sky-500/20" />
+        <div className="absolute -bottom-48 left-1/3 size-[30rem] rounded-full bg-violet-500/10 blur-3xl light:bg-violet-500/20" />
         <DotPattern
           className={cn(
             "text-muted-foreground/20",
