@@ -14,8 +14,6 @@ import {
 } from "@/components/ui/dialog"
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import { Separator } from "@/components/ui/separator"
-import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
 
 export const TG_USER = "BarniSolo"
@@ -219,7 +217,19 @@ export type Plan = {
   ex: readonly [string, string, string] | null
 }
 
-export function PlanDialog({ plan, trigger }: { plan: Plan; trigger: React.ReactElement }) {
+export type Tone = { chip: string; wash: string; line: string; badge: string }
+
+export function PlanDialog({
+  plan,
+  trigger,
+  tone,
+  icon: Icon,
+}: {
+  plan: Plan
+  trigger: React.ReactElement
+  tone: Tone
+  icon: React.ComponentType<{ className?: string }>
+}) {
   const [name, setName] = useState("")
   const [contact, setContact] = useState("")
   const [note, setNote] = useState("")
@@ -238,20 +248,34 @@ export function PlanDialog({ plan, trigger }: { plan: Plan; trigger: React.React
   return (
     <Dialog>
       <DialogTrigger nativeButton={false} render={trigger} />
-      <DialogContent className="max-h-[90svh] gap-6 overflow-y-auto p-6 sm:max-w-3xl">
-        <DialogHeader>
-          <DialogTitle className="text-2xl">{plan.t}</DialogTitle>
-          <DialogDescription className="text-base">{plan.d}</DialogDescription>
-          <p className="pt-1 text-4xl font-semibold tracking-tight tabular-nums">{plan.price} ₽</p>
-        </DialogHeader>
+      <DialogContent initialFocus={false} className="max-h-[92svh] gap-0 overflow-y-auto p-0 sm:max-w-4xl">
+        <div className="relative overflow-hidden border-b px-6 pt-6 pb-5">
+          <span aria-hidden="true" className={cn("pointer-events-none absolute inset-0 bg-radial-[at_0%_0%] to-transparent to-70%", tone.wash)} />
+          <span aria-hidden="true" className={cn("pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent to-transparent", tone.line)} />
+          <DialogHeader className="relative flex-row flex-wrap items-end justify-between gap-4 pr-8">
+            <div className="flex items-center gap-3">
+              <span className={cn("flex size-12 shrink-0 items-center justify-center rounded-xl ring-1", tone.chip)}>
+                <Icon className="size-6" />
+              </span>
+              <div className="flex flex-col gap-0.5">
+                <DialogTitle className="text-2xl">{plan.t}</DialogTitle>
+                <DialogDescription className="text-base text-foreground/75">{plan.d}</DialogDescription>
+              </div>
+            </div>
+            <p className="flex items-baseline gap-1.5 tabular-nums">
+              <span className="text-base text-muted-foreground">от</span>
+              <span className="text-4xl font-semibold tracking-tight">{plan.price.replace(/^от\s/, "")} ₽</span>
+            </p>
+          </DialogHeader>
+        </div>
 
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6 px-6 py-4 md:grid-cols-2">
           <div className="flex flex-col gap-3">
-            <h3 className="font-medium">Что входит</h3>
+            <h3 className="text-sm font-medium text-muted-foreground">Что входит</h3>
             <ul className="flex flex-col gap-2">
               {plan.more.map((x) => (
-                <li key={x} className="flex gap-2">
-                  <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-primary/10">
+                <li key={x} className="flex items-start gap-2.5">
+                  <span className={cn("mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full ring-1", tone.chip)}>
                     <CheckIcon className="size-3" aria-hidden="true" />
                   </span>
                   {x}
@@ -259,59 +283,69 @@ export function PlanDialog({ plan, trigger }: { plan: Plan; trigger: React.React
               ))}
             </ul>
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-5">
             <div className="flex flex-col gap-3">
-              <h3 className="font-medium">Что нужно от вас</h3>
-              <ul className="flex flex-col gap-2 text-muted-foreground">
-                {plan.need.map((x) => (
-                  <li key={x}>{x}</li>
+              <h3 className="text-sm font-medium text-muted-foreground">Что нужно от вас</h3>
+              <ol className="flex flex-col gap-2">
+                {plan.need.map((x, i) => (
+                  <li key={x} className="flex items-start gap-2.5">
+                    <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-foreground/10 text-xs font-semibold tabular-nums">
+                      {i + 1}
+                    </span>
+                    {x}
+                  </li>
                 ))}
-              </ul>
+              </ol>
             </div>
             {plan.ex && (
               <a
                 href={plan.ex[1]}
                 target="_blank"
                 rel="noreferrer"
-                className="group/ex overflow-hidden rounded-xl border"
+                className="group/ex flex items-center gap-3 rounded-xl border bg-muted/40 p-2 pr-4 transition-colors hover:bg-muted"
               >
                 <img
                   src={plan.ex[2]}
                   alt={plan.ex[0]}
-                  className="aspect-[16/9] w-full object-cover object-left-top transition-transform duration-500 group-hover/ex:scale-[1.03]"
+                  className="aspect-[16/10] w-36 shrink-0 rounded-lg object-cover object-left-top ring-1 ring-foreground/10"
                 />
-                <span className="flex items-center justify-between px-3 py-2 text-sm font-medium">
-                  Пример: {plan.ex[0]}
-                  <ArrowUpRightIcon className="size-4" aria-hidden="true" />
+                <span className="flex flex-1 flex-col">
+                  <span className="text-xs text-muted-foreground">Пример</span>
+                  <span className="font-medium">{plan.ex[0]}</span>
                 </span>
+                <ArrowUpRightIcon className="size-4 transition-transform group-hover/ex:translate-x-0.5 group-hover/ex:-translate-y-0.5" aria-hidden="true" />
               </a>
             )}
           </div>
         </div>
 
-        <Separator />
-
-        <form onSubmit={send} className="flex flex-col gap-4">
-          <h3 className="font-medium">Оставить заявку</h3>
-          <FieldGroup className="grid gap-4 sm:grid-cols-2">
+        <form onSubmit={send} className="relative flex flex-col gap-3 overflow-hidden border-t px-6 py-4">
+          <span aria-hidden="true" className={cn("pointer-events-none absolute inset-0 bg-radial-[at_100%_100%] to-transparent to-70%", tone.wash)} />
+          <div className="relative flex flex-col gap-0.5">
+            <h3 className="text-lg font-semibold">Оставить заявку</h3>
+            <p className="text-sm text-foreground/70">Заявка откроется в Telegram - останется нажать «Отправить».</p>
+          </div>
+          <FieldGroup className="relative grid gap-3 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1.4fr]">
             <Field>
-              <FieldLabel htmlFor="pl-name">Как к вам обращаться</FieldLabel>
-              <Input id="pl-name" value={name} onChange={(e) => setName(e.target.value)} />
+              <FieldLabel htmlFor="pl-name">Как к вам обращаться</FieldLabel>
+              <Input id="pl-name" className="bg-background/70" value={name} onChange={(e) => setName(e.target.value)} />
             </Field>
             <Field>
               <FieldLabel htmlFor="pl-contact">Телефон или Telegram</FieldLabel>
-              <Input id="pl-contact" value={contact} onChange={(e) => setContact(e.target.value)} />
+              <Input id="pl-contact" className="bg-background/70" value={contact} onChange={(e) => setContact(e.target.value)} />
             </Field>
-            <Field className="sm:col-span-2">
-              <FieldLabel htmlFor="pl-note">Ссылка на канал, Авито или пара слов о деле</FieldLabel>
-              <Textarea id="pl-note" rows={2} value={note} onChange={(e) => setNote(e.target.value)} />
+            <Field className="sm:col-span-2 lg:col-span-1">
+              <FieldLabel htmlFor="pl-note">Канал, Авито или пара слов о деле</FieldLabel>
+              <Input id="pl-note" className="bg-background/70" value={note} onChange={(e) => setNote(e.target.value)} />
             </Field>
           </FieldGroup>
-          <Button type="submit" size="lg" className="w-full sm:w-fit">
-            <SendIcon data-icon="inline-start" />
-            Отправить заявку в Telegram
-          </Button>
-          <p className="text-xs text-muted-foreground">Исполнитель: {LEGAL}</p>
+          <div className="relative flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-xs text-muted-foreground">Исполнитель: {LEGAL}</p>
+            <Button type="submit" size="lg" className="shrink-0">
+              <SendIcon data-icon="inline-start" />
+              Отправить заявку в Telegram
+            </Button>
+          </div>
         </form>
       </DialogContent>
     </Dialog>

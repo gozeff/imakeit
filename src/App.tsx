@@ -377,6 +377,8 @@ function Plans() {
           <PlanDialog
             key={p.t}
             plan={p}
+            tone={t}
+            icon={p.icon}
             trigger={
               <Card className={cn("relative cursor-pointer gap-3 overflow-visible md:col-span-2 lg:col-span-1", tile)}>
                 <span
@@ -640,7 +642,7 @@ export default function App() {
               <ArrowRightIcon data-icon="inline-end" />
             </Button>
           ) : (
-            <Button variant="outline" size="lg" className="w-40" onClick={() => goTo(page - 1)}>
+            <Button size="lg" className="w-40" onClick={() => goTo(page - 1)}>
               <ArrowLeftIcon data-icon="inline-start" />
               Назад
             </Button>
