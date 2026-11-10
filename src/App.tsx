@@ -527,7 +527,9 @@ export default function App() {
       </div>
       <header className="relative border-b bg-background/60 backdrop-blur-md">
         <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 px-4 md:px-6">
-          <div className="hidden w-24 sm:block" />
+          <div className="hidden flex-1 sm:flex">
+            <ThemeSwitch />
+          </div>
           <Tabs value={String(page)} onValueChange={(v) => goTo(Number(v))}>
             <TabsList>
               {pages.map((p, i) => (
@@ -537,8 +539,12 @@ export default function App() {
               ))}
             </TabsList>
           </Tabs>
-          <div className="hidden w-24 justify-end sm:flex">
-            <ThemeSwitch />
+          <div className="flex flex-1 justify-end">
+            <Button size="sm" render={ext(TG)}>
+              <SendIcon data-icon="inline-start" />
+              <span className="sm:hidden">Telegram</span>
+              <span className="hidden sm:inline">Написать в Telegram</span>
+            </Button>
           </div>
         </div>
       </header>
