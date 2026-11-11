@@ -73,7 +73,7 @@ function ScaledFrame({
   return (
     <div
       ref={box}
-      className={cn("relative w-full overflow-hidden bg-muted", fill && "h-full")}
+      className={cn("relative w-full overflow-clip bg-muted", fill && "h-full")}
       style={fill ? undefined : { aspectRatio: `${w} / ${h}` }}
     >
       {poster && <img src={poster} alt="" className="absolute inset-0 size-full object-cover object-left-top" />}
@@ -112,7 +112,7 @@ export function PhoneFrame({
       <div className="size-full rounded-[15cqw] bg-neutral-950 p-[2.6cqw] shadow-2xl ring-1 ring-neutral-700/60">
         <div
           className={cn(
-            "flex size-full flex-col overflow-hidden rounded-[12.4cqw]",
+            "flex size-full flex-col overflow-clip rounded-[12.4cqw]",
             bar === "dark" ? "bg-neutral-950 text-white" : "bg-white text-neutral-900",
           )}
         >
@@ -150,7 +150,7 @@ export function SitePreview({
     <Dialog onOpenChange={(o) => !o && setFull(false)}>
       <DialogTrigger nativeButton={false} render={trigger} />
       <DialogContent
-        className={cn("gap-0 overflow-hidden p-0 transition-none sm:max-w-none", full && "flex flex-col")}
+        className={cn("gap-0 overflow-clip p-0 transition-none sm:max-w-none", full && "flex flex-col")}
         style={
           full
             ? { width: "calc(100vw - 1rem)", height: "calc(100svh - 1rem)", maxWidth: "none" }
@@ -164,16 +164,21 @@ export function SitePreview({
             <Badge variant="outline" className="hidden rounded-full sm:inline-flex">
               {url}
             </Badge>
-            <Button variant="outline" size="sm" onClick={() => setFull((v) => !v)}>
+            <Button
+              variant="outline"
+              size="sm"
+              aria-label={full ? "Свернуть" : "На весь экран"}
+              onClick={() => setFull((v) => !v)}
+            >
               {full ? <Minimize2Icon data-icon="inline-start" /> : <Maximize2Icon data-icon="inline-start" />}
-              {full ? "Свернуть" : "На весь экран"}
+              <span className="hidden sm:inline">{full ? "Свернуть" : "На весь экран"}</span>
             </Button>
           </div>
         </DialogHeader>
         <div className={cn(full && "min-h-0 flex-1")}>
           <ScaledFrame fill={full} src={href} w={1440} h={900} title={name} poster={poster} />
         </div>
-        <DialogFooter className="m-0 shrink-0 flex-row items-center justify-between gap-4 border-t px-4 py-3">
+        <DialogFooter className="m-0 shrink-0 flex-col items-stretch gap-3 border-t px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
           <span className="flex items-center gap-2 text-sm font-medium">
             <MousePointerClickIcon className="size-4 text-muted-foreground" aria-hidden="true" />
             Это живой сайт - можно смотреть, кликать и листать
