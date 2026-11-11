@@ -66,8 +66,21 @@ function ScaledFrame({
       if (dlg) dlg.focus()
       else f.blur()
     }
+    // Сайты restdisp.ru и alex-cars.ru, открытые здесь, присылают «imakeit:esc» на нажатие Esc
+    const esc = (e: MessageEvent) => {
+      const f = frame.current
+      if (!f || e.source !== f.contentWindow || e.data !== "imakeit:esc") return
+      const dlg = f.closest<HTMLElement>("[role=dialog]")
+      if (!dlg) return
+      dlg.focus()
+      dlg.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", code: "Escape", bubbles: true, cancelable: true }))
+    }
     document.addEventListener("pointermove", back)
-    return () => document.removeEventListener("pointermove", back)
+    window.addEventListener("message", esc)
+    return () => {
+      document.removeEventListener("pointermove", back)
+      window.removeEventListener("message", esc)
+    }
   }, [])
   const { k, ih } = size
   return (
