@@ -212,6 +212,7 @@ function MainTile({ id }: { id: ProjectId }) {
   }, [p])
   return (
     <Card
+      id="work-main"
       className={cn("relative overflow-hidden md:col-span-2 md:row-span-2", tile, projWash(id))}
       style={{ viewTransitionName: `proj-${id}` }}
     >
@@ -560,15 +561,31 @@ export default function App() {
   useEffect(() => setMain(dark ? "alex" : "disp"), [dark])
   const side: ProjectId = main === "disp" ? "alex" : "disp"
 
+  // На телефоне выбранный сайт уезжает наверх, в большую карточку: поднимаем экран к ней
+  const reveal = (smooth: boolean) => {
+    const el = document.getElementById("work-main")
+    const box = el?.closest("section")
+    if (scene || !el || !box) return
+    const gap = el.getBoundingClientRect().top - box.getBoundingClientRect().top
+    if (gap < 0) box.scrollTo({ top: box.scrollTop + gap - 16, behavior: smooth ? "smooth" : "instant" })
+  }
   const swap = () => {
     const doc = document as Document & { startViewTransition?: (cb: () => void) => unknown }
-    if (!doc.startViewTransition) return setMain(side)
+    if (!doc.startViewTransition) {
+      flushSync(() => setMain(side))
+      return reveal(true)
+    }
     let done = false
     doc.startViewTransition(() => {
       done = true
       flushSync(() => setMain(side))
+      reveal(false)
     })
-    setTimeout(() => !done && setMain(side), 400)
+    setTimeout(() => {
+      if (done) return
+      flushSync(() => setMain(side))
+      reveal(true)
+    }, 400)
   }
 
   const goTo = (i: number) => {
